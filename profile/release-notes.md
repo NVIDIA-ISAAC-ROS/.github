@@ -1,5 +1,19 @@
 # Release Notes
-## Isaac ROS DP (developer preview) June 30, 2022
+
+## Isaac ROS 0.10.1 DP (developer preview) July 12, 2022
+Packages available as `DP Release` tagged `v0.10.1-dp` on GitHub.
+### What's New
+Minor bug fixes and updates including:
+- `isaac_ros_apriltag` updated launch file 'max_tags' parameter to default 64
+- `isaac_ros_argus_camera` tuned queue sizes
+- `isaac_ros_common` add missing dependency on `isaac_ros_apriltag_interfaces`
+- `isaac_ros_dnn_stereo_disparity` tuned QoS and queue sizes
+- `isaac_ros_image_pipeline` improved frame synchronization
+- `isaac_ros_nvblox` fixed integration with Nav2 costmaps on Humble, updated topic names for test rosbag, fixed rosdeps
+- `isaac_ros_visual_slam` updated launch files for Realsense package changes, removed stale dependency on `isaac_ros_image_proc`
+
+## Isaac ROS 0.10.0 DP (developer preview) June 30, 2022
+Packages available as `DP Release` tagged `v0.10.0-dp` on GitHub.
 ### What's New
 ROS2 Humble release of Isaac ROS with performance boost and new stereo perception functions including:
 - packages for ROS2 Humble (Foxy deprecated) on Jetpack 5.0.1 DP
@@ -17,7 +31,8 @@ There are known limitations with this release, documented below which may have a
 - Removed CenterPose support on Jetson
 - `isaac_ros_ess` throws an error if using rosbag as input, and input topics are published after the node is started
 
-## Isaac ROS EA3 (early access) March 23, 2022
+## Isaac ROS 0.9.3 EA3 (early access) March 23, 2022
+Packages available as `EA3 Release` tagged `v0.9.3-ea3` on GitHub.
 ### What's New
 GTC 2022 release of Isaac ROS with new packages for vision based autonomous navigation including:
 - packages for ROS2 Foxy on Jetpack 4.6.1
@@ -25,8 +40,8 @@ GTC 2022 release of Isaac ROS with new packages for vision based autonomous navi
 - `isaac_ros_nvblox` for vision based temporary 3D obstacle map construction in real-time
 - `isaac_ros_object_detection` to detect and classify obstacles using DNN detection networks
 
-## Isaac ROS EA2.1 (early access) Nov 22, 2021
-
+## Isaac ROS 0.9.1 EA2.1 (early access) Nov 22, 2021
+Packages available as `EA2 Release` tagged `v0.9.1-ea2` on GitHub.
 ### What’s new
 
 Incremental update with fixes and new packages from previous ROSCon 2021 release, including:
