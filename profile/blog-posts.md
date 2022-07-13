@@ -13,6 +13,7 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 ](https://developer.nvidia.com/blog/nvidia-ai-perception-coming-to-ros-developers/)
 
 ## ROS Discourse Forum
+- [Isaac ROS July update, Humble with hardware accelerated node graphs](https://discourse.ros.org/t/isaac-ros-july-update-humble-with-hardware-accelerated-node-graphs/26308)
 - [New type adaptation open source examples for Humble](https://discourse.ros.org/t/new-type-adaptation-open-source-examples-for-humble/26241)
 - [Isaac ROS Humble preview, new stereo vision perception](https://discourse.ros.org/t/isaac-ros-humble-preview-new-stereo-vision-perception/25730/)
 - [Integrating Nav2 navigation stack with NVIDIA Isaac ROS GEMs](https://discourse.ros.org/t/integrating-nav2-navigation-stack-with-nvidia-isaac-ros-gems/25186/)
