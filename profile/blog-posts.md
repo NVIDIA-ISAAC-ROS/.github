@@ -13,6 +13,7 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 ](https://developer.nvidia.com/blog/nvidia-ai-perception-coming-to-ros-developers/)
 
 ## ROS Discourse Forum
+- [Isaac ROS 1-year anniversary, Sept incremental release for Jetpack 5.0.2](https://discourse.ros.org/t/isaac-ros-1-year-anniversary-sept-incremental-release-for-jetpack-5-0-2/27190)
 - [Isaac ROS July update, Humble with hardware accelerated node graphs](https://discourse.ros.org/t/isaac-ros-july-update-humble-with-hardware-accelerated-node-graphs/26308)
 - [New type adaptation open source examples for Humble](https://discourse.ros.org/t/new-type-adaptation-open-source-examples-for-humble/26241)
 - [Isaac ROS Humble preview, new stereo vision perception](https://discourse.ros.org/t/isaac-ros-humble-preview-new-stereo-vision-perception/25730/)
