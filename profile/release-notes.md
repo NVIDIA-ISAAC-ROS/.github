@@ -1,6 +1,6 @@
 # Release Notes
 
-## Isaac ROS 0.11.0 DP (developer preview) August 31, 2022
+## Isaac ROS 0.11.0 DP (developer preview) September 1, 2022
 Packages available as `DP 1.1 Release` tagged `v0.11.0-dp` on GitHub.
 ### What's New
 Updates including:
@@ -16,7 +16,6 @@ Updates including:
 ### Limitations
 This release has the following known limitations, with workarounds available in the troubleshooting section:
 - Intel RealSense drivers do not support Humble out-of-the-box (workaround [here](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common/blob/main/docs/troubleshooting.md#realsense-driver-doesnt-work-with-ros2-humble))
-- Known issues with running CenterPose on Jetson
 
 ### Feature Requests & Issues Addressed
 This release contains new features and fixes to address user feedback, including:
@@ -26,6 +25,7 @@ This release contains new features and fixes to address user feedback, including
 - [`isaac_ros_common #29`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common/issues/29): Torch unavailable inside container on AGX Orin (kudos to [@bblumberg](https://github.com/bblumberg))
 - [`isaac_ros_common #40`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common/issues/40): Docker support for JetPack 5.0.2
 - [`isaac_ros_dnn_inference #5`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_dnn_inference/issues/5): ROS Topics can't be viewed from outside container due to UID mismatch (kudos to [@GEngels](https://github.com/GEngels), [@Doch88](https://github.com/Doch88))
+- [`isaac_ros_object_detection #8`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_object_detection/issues/8): Isaac ROS Object Detection doesn't install parameters file (kudos to [@Tristis116](https://github.com/Tristis116))
 
 ## Isaac ROS 0.10.1 DP (developer preview) July 12, 2022
 Packages available as `DP Release` tagged `v0.10.1-dp` on GitHub.
