@@ -3,6 +3,7 @@
 Read the latest posts from NVIDIA for more about Isaac ROS.
 
 ## NVIDIA Developer Blog
+
 - [Improve Perception Performance for ROS 2 Applications with NVIDIA Isaac Transport for ROS](https://developer.nvidia.com/blog/improve-perception-performance-for-ros-2-applications-with-nvidia-isaac-transport-for-ros/) 
 - [Developing and Deploying AI-powered Robots with NVIDIA Isaac Sim and NVIDIA TAO](https://developer.nvidia.com/blog/developing-and-deploying-ai-powered-robots-with-nvidia-isaac-sim-and-nvidia-tao/)
 - [Integrating the Nav2 Stack with NVIDIA Isaac ROS GEMs](https://developer.nvidia.com/blog/integrating-the-nav2-stack-with-nvidia-isaac-ros-gems/)
@@ -13,6 +14,7 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 ](https://developer.nvidia.com/blog/nvidia-ai-perception-coming-to-ros-developers/)
 
 ## ROS Discourse Forum
+
 - [Isaac ROS 1-year anniversary, Sept incremental release for Jetpack 5.0.2](https://discourse.ros.org/t/isaac-ros-1-year-anniversary-sept-incremental-release-for-jetpack-5-0-2/27190)
 - [Isaac ROS July update, Humble with hardware accelerated node graphs](https://discourse.ros.org/t/isaac-ros-july-update-humble-with-hardware-accelerated-node-graphs/26308)
 - [New type adaptation open source examples for Humble](https://discourse.ros.org/t/new-type-adaptation-open-source-examples-for-humble/26241)
