@@ -20,7 +20,7 @@
     ```
 
     ```bash
-    git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-beta
+    git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-development
     ```
 
 3. Plug in your realsense camera before launching the docker container in the next step.
