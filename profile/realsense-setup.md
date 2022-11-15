@@ -9,7 +9,7 @@
     ./scripts/setup_udev_rules.sh
     ```
 
-2. Clone the isaac_ros_common and the `ros2-beta` branch of the realsense repository:
+2. Clone the isaac_ros_common and the `ros2-development` branch of the realsense repository:
 
     ```bash
     mkdir -p ~/workspaces/isaac_ros-dev/src && cd ~/workspaces/isaac_ros-dev/src
