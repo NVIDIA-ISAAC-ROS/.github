@@ -9,7 +9,7 @@
     ./scripts/setup_udev_rules.sh
     ```
 
-2. Clone the isaac_ros_common and the `ros2-development` branch of the realsense repository:
+2. Clone the isaac_ros_common and the `4.51.1` release of the realsense repository:
 
     ```bash
     mkdir -p ~/workspaces/isaac_ros-dev/src && cd ~/workspaces/isaac_ros-dev/src
@@ -20,7 +20,7 @@
     ```
 
     ```bash
-    git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-development
+    git clone https://github.com/IntelRealSense/realsense-ros.git -b 4.51.1
     ```
 
 3. Plug in your realsense camera before launching the docker container in the next step.
