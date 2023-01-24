@@ -4,6 +4,7 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 
 ## Isaac ROS Webinar Series
 
+- [Build Connected Robots with NVIDIA Isaac Dispatch and Client](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Accelerate YOLOv5 and Custom AI Models in ROS with NVIDIA Isaac](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Using ML Models in ROS2 to Robustly Estimate Distance to Obstacles](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Pinpoint, 250 fps, ROS 2 Localization with vSLAM on Jetson](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
@@ -33,3 +34,4 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 - [Developing ROS-based Mobile Robots using NVIDIA Isaac ROS GEMs](https://discourse.ros.org/t/developing-ros-based-mobile-robots-using-nvidia-isaac-ros-gems/24775/)
 - [Isaac ROS Nov update, hardware acceleration for autonomous robots](https://discourse.ros.org/t/isaac-ros-nov-update-hardware-acceleration-for-autonomous-robots/23223/)
 - [Isaac ROS, hardware acceleration for autonomous robots](https://discourse.ros.org/t/isaac-ros-hardware-acceleration-for-autonomous-robots/22783/)
+
