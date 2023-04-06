@@ -1,5 +1,42 @@
 # Release Notes
 
+## Isaac ROS 0.30.0 DP (developer preview) April 5, 2023
+
+Packages available as `DP 3 Release` tagged `v0.30.0-dp` on GitHub.
+
+### What's New
+
+Updates including:
+
+- support for JetPack 5.1.1
+- support for Jetson Orin NX, and Jetson Orin Nano 8GB
+- support for RTX 4K series (Lovelace GPU) with CUDA 11.8 on x86_64
+- new package `isaac_ros_map_localization` using LIDAR to automatically find the pose of the robot for Nav2
+- `isaac_ros_vslam` improvements for better covariance estimation and planar constraints for mobile robots
+- `isaac_ros_nvblox` improvements for DNN-based person detection and removal from 3D scene reconstruction
+- `isaac_ros_h264_encoder` improvement adding H.264 P-frame encode for higher performance and smaller rosbags
+- `isaac_ros_h264_decoder` improvement adding H.264 decompression on Jetson (aarch64)
+- `isaac_ros_dnn_stereo_disparity` improvement of ESS DNN trained with real data and SDG (synthetic data generation)
+- new package `ros2_benchmark` for performance measurement of graphs of nodes in open source
+- new package `isaac_ros_benchmark` building upon `ros2_benchmark` to provide configurations to benchmark Isaac ROS graphs of nodes
+- open source release for multiple NITROS-enabled hardware accelerated packages
+
+### Limitations
+
+This release has the following known limitations, with workarounds available in the troubleshooting section:
+
+- `isaac_ros_triton` can under certain conditions report errors of the form `Incomplete inference; response appeared out of order`.
+- `isaac_ros_h264_encoder` can become unresponsive when starting a stream after stopping because of a known synchronization bug.
+
+### Feature Requests & Issues Addressed
+
+This release contains new features and fixes to address user feedback, including:
+
+- [`isaac_ros_visual_slam #53`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam/issues/53): Add instructions to clone the dependency `isaac_ros_nitros`
+- [`isaac_ros_visual_slam #54`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam/issues/54): Update depth emitter parameters passed to RealSense node
+- [`isaac_ros_nvblox #40`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nvblox/issues/40): Update `realsense-ros` branch name due to upstream change (kudos to [@ripdk12](https://github.com/ripdk12))
+- [`isaac_ros_mission_client #2`](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_mission_client/issues/2): Change parameter name to avoid namespace duplication (kudos to [@bobbleballs](https://github.com/bobbleballs))
+
 ## Isaac ROS 0.20.0 DP (developer preview) October 19, 2022
 
 Packages available as `DP 2 Release` tagged `v0.20.0-dp` on GitHub.
@@ -79,9 +116,9 @@ Packages available as `DP Release` tagged `v0.10.0-dp` on GitHub.
 
 ### What's New
 
-ROS2 Humble release of Isaac ROS with performance boost and new stereo perception functions including:
+ROS 2 Humble release of Isaac ROS with performance boost and new stereo perception functions including:
 
-- packages for ROS2 Humble (Foxy deprecated) on JetPack 5.0.1 DP
+- packages for ROS 2 Humble (Foxy deprecated) on JetPack 5.0.1 DP
 - support for Jetson Orin
 - support for Isaac Sim 2022.1 *(Isaac SIM 2021.2 is deprecated)*
 - `isaac_ros_nitros` implementing type adaptation & type negotiation features new to Humble boosting performance
@@ -106,7 +143,7 @@ Packages available as `EA3 Release` tagged `v0.9.3-ea3` on GitHub.
 
 GTC 2022 release of Isaac ROS with new packages for vision based autonomous navigation including:
 
-- packages for ROS2 Foxy on JetPack 4.6.1
+- packages for ROS 2 Foxy on JetPack 4.6.1
 - `isaac_ros_visual_slam` upgraded from SVIO as visual odometry source for Nav2 with save and load of feature maps
 - `isaac_ros_nvblox` for vision based temporary 3D obstacle map construction in real-time
 - `isaac_ros_object_detection` to detect and classify obstacles using DNN detection networks
@@ -119,7 +156,7 @@ Packages available as `EA2 Release` tagged `v0.9.1-ea2` on GitHub.
 
 Incremental update with fixes and new packages from previous ROSCon 2021 release, including:
 
-- packages for ROS2 Foxy on JetPack 4.6
+- packages for ROS 2 Foxy on JetPack 4.6
 - support for Isaac Sim 2021.3
 - `isaac_ros_pose_estimation` update adding CenterPose DNN for detection of pose
 - Isaac SIM <-> Isaac ROS tutorials with Jetson hardware in the loop
@@ -131,7 +168,7 @@ Incremental update with fixes and new packages from previous ROSCon 2021 release
 
 ROSCon 2021 release of Isaac ROS providing hardware acceleration for autonomous robots with new features including:
 
-- packages for ROS2 Foxy on JetPack 4.6
+- packages for ROS 2 Foxy on JetPack 4.6
 - `isaac_ros_visual_odometry` providing stereo visual inertial odometry
 - `isaac_ros_argus_camera` for hardware accelerated ISP of CSI and GMSL cameras
 - `isaac_ros_image_segmentation` for DNN based image segmentation including people detection pre-trained model
@@ -144,7 +181,7 @@ ROSCon 2021 release of Isaac ROS providing hardware acceleration for autonomous 
 
 First release of Isaac ROS providing hardware acceleration for autonomous robots with new features including:
 
-- packages for ROS2 Foxy on JetPack 4.5
+- packages for ROS 2 Foxy on JetPack 4.5
 - `isaac_apriltag` providing hardware acceleration replacement for `apriltag`
 - `isaac_image_proc` providing hardware acceleration replacement for `image_proc`
 - `isaac_stereo_image_proc` providing hardware acceleration replacement for `image_proc`

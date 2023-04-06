@@ -5,15 +5,17 @@
 ### Discrete GPU
 
 1. Prepare a NVIDIA-powered platform with the following min specs:
+    * Ubuntu 20.04+
+      * **Experimental**: WSL2 on Windows 11
     * 16 GB general RAM
     * Discrete NVIDIA GPU with the following specs:
-        * supports CUDA 11.7 with Volta or newer
+        * supports CUDA 11.8 with Volta or newer
         * minimum 8GB of VRAM and recommended 12GB+
 
 ### Jetson Platform
 
 1. Install Jetpack using the steps found [here](https://docs.nvidia.com/jetson/jetpack/install-jetpack/index.html).
-2. After bootup confirm that you have installed `Jetpack 5.0.2` by running the following command. The output should have the terms `R35 (release), REVISION: 1.0`.
+2. After bootup confirm that you have installed `Jetpack 5.1.1` by running the following command. The output should have the terms `R35 (release), REVISION: 3.1`.
 
     ```bash
     cat /etc/nv_tegra_release
