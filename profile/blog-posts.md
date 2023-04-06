@@ -6,7 +6,7 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 
 - [Build Connected Robots with NVIDIA Isaac Dispatch and Client](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Accelerate YOLOv5 and Custom AI Models in ROS with NVIDIA Isaac](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
-- [Using ML Models in ROS2 to Robustly Estimate Distance to Obstacles](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
+- [Using ML Models in ROS 2 to Robustly Estimate Distance to Obstacles](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Pinpoint, 250 fps, ROS 2 Localization with vSLAM on Jetson](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 
 ## NVIDIA Developer Blogs
@@ -23,7 +23,7 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 ## ROS Discourse
 
 - [Isaac ROS Oct update, Mission Dispatch & Client, Freespace and Image compression](https://discourse.ros.org/t/isaac-ros-oct-update-mission-dispatch-client-freespace-and-image-compression/27857)
-- [Isaac Mission Dispatch & Client w/ VDA5050 open source release for ROS2](https://discourse.ros.org/t/isaac-mission-dispatch-client-w-vda5050-open-source-release-for-ros2/27856)
+- [Isaac Mission Dispatch & Client w/ VDA5050 open source release for ROS 2](https://discourse.ros.org/t/isaac-mission-dispatch-client-w-vda5050-open-source-release-for-ros2/27856)
 - [Isaac ROS 1-year anniversary, Sept incremental release for Jetpack 5.0.2](https://discourse.ros.org/t/isaac-ros-1-year-anniversary-sept-incremental-release-for-jetpack-5-0-2/27190)
 - [Isaac ROS July update, Humble with hardware accelerated node graphs](https://discourse.ros.org/t/isaac-ros-july-update-humble-with-hardware-accelerated-node-graphs/26308)
 - [New type adaptation open source examples for Humble](https://discourse.ros.org/t/new-type-adaptation-open-source-examples-for-humble/26241)

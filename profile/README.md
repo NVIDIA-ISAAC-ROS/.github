@@ -1,6 +1,6 @@
 # NVIDIA Isaac ROS
 
-Welcome to Isaac ROS, a collection of ROS2 packages for making autonomous robots.
+Welcome to Isaac ROS, a collection of hardware-accelerated, high performance, low latency ROS 2 packages for making autonomous robots which leverage the power of Jetson and other NVIDIA platforms.
 
 * To get started, visit the [summary of packages](https://github.com/NVIDIA-ISAAC-ROS/.github/blob/main/profile/package-summary.md) and [examples](https://github.com/NVIDIA-ISAAC-ROS/.github/blob/main/profile/package-summary.md) of how to use them.
 * Compare the [performance](https://github.com/NVIDIA-ISAAC-ROS/.github/blob/main/profile/performance-summary.md) of the packages on various platforms.

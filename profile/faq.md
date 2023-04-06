@@ -2,7 +2,7 @@
 
 ## What is Isaac ROS?
 
-Isaac ROS is a collection of ROS2 packages for making autonomous robots. The Isaac ROS suite has been developed and released by NVIDIA to leverage the power of hardware acceleration on NVIDIA Jetson and discrete GPUs for standard robotics applications.
+Isaac ROS is a collection of ROS 2 packages for making autonomous robots. The Isaac ROS suite has been developed and released by NVIDIA to leverage the power of hardware acceleration on NVIDIA Jetson and discrete GPUs for standard robotics applications.
 
 A summary of all available Isaac ROS packages is available [here](./package-summary.md).
 
@@ -10,7 +10,7 @@ A summary of all available Isaac ROS packages is available [here](./package-summ
 
 Each Isaac ROS package has a detailed quick start guide in the main-level `README.md` file. Additionally, many Isaac ROS packages include more advanced tutorials, such as camera-to-detection compute graph examples and integration with NVIDIA [Isaac Sim](https://developer.nvidia.com/isaac-sim).
 
-## I have native ROS2 code, will it work with Isaac ROS packages?
+## I have native ROS 2 code, will it work with Isaac ROS packages?
 
 Yes. Isaac ROS packages use standard ROS interfaces on input and output topics. Where appropriate, Isaac ROS packages are also designed to be drop-in replacements for the commonly-used, CPU-based ROS implementations familiar to robotics developers.  
 
