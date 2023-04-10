@@ -5,7 +5,7 @@
 | RealSense Model | Supported? |
 | --------------- | ---------- |
 | D455            | &check;    |
-| D435            | &check;    |
+| D435i           | &check;    |
 | D415            | &cross;    |
 
 > **Note:** For best results, please ensure that the camera's firmware has been updated.
