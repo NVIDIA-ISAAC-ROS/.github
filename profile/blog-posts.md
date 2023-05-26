@@ -4,6 +4,9 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 
 ## Isaac ROS Webinar Series
 
+- [Find Your Way With Isaac ROS Map Localization](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
+- [Performance Measurement of Robotics Applications with ros2_benchmark](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
+- [Be an Isaac ROS DevOps Hero with Containerized Development](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Build Connected Robots with NVIDIA Isaac Dispatch and Client](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Accelerate YOLOv5 and Custom AI Models in ROS with NVIDIA Isaac](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
 - [Using ML Models in ROS 2 to Robustly Estimate Distance to Obstacles](https://gateway.on24.com/wcc/experience/elitenvidiabrill/1407606/3998202/isaac-ros-webinar-series)
@@ -22,6 +25,13 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 
 ## ROS Discourse
 
+- [Hyperdrive robotics applications with ros2_benchmark (webinar)](https://discourse.ros.org/t/hyperdrive-robotics-applications-with-ros2-benchmark-webinar/30978)
+- [ROS 2 benchmark open source release](https://discourse.ros.org/t/ros-2-benchmark-open-source-release/30753)
+- [Isaac ROS April update, open source + Orin Nano + Lovelace GPU’s](https://discourse.ros.org/t/isaac-ros-april-update-open-source-orin-nano-lovelace-gpu-s/30755)
+- [Help Shape the Future of Isaac ROS and Win a Prize](https://discourse.ros.org/t/help-shape-the-future-of-isaac-ros-and-win-a-prize/31143)
+- [Kidnapped Robot? Get it back with Isaac ROS Map Localization (webinar)](https://discourse.ros.org/t/kidnapped-robot-get-it-back-with-isaac-ros-map-localization-webinar/31350)
+- [ROS romantics and DevOps heroes (webinar)](https://discourse.ros.org/t/ros-romantics-and-devops-heroes-webinar/29652)
+- [NVIDIA Isaac ROS Webinar Series Kicks Off on November 14, 2022](https://discourse.ros.org/t/nvidia-isaac-ros-webinar-series-kicks-off-on-november-14-2022/28259)
 - [Isaac ROS Oct update, Mission Dispatch & Client, Freespace and Image compression](https://discourse.ros.org/t/isaac-ros-oct-update-mission-dispatch-client-freespace-and-image-compression/27857)
 - [Isaac Mission Dispatch & Client w/ VDA5050 open source release for ROS 2](https://discourse.ros.org/t/isaac-mission-dispatch-client-w-vda5050-open-source-release-for-ros2/27856)
 - [Isaac ROS 1-year anniversary, Sept incremental release for Jetpack 5.0.2](https://discourse.ros.org/t/isaac-ros-1-year-anniversary-sept-incremental-release-for-jetpack-5-0-2/27190)
