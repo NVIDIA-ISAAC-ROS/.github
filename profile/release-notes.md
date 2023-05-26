@@ -1,5 +1,19 @@
 # Release Notes
 
+## Isaac ROS 0.31.0 DP (developer preview) May 25, 2023
+
+Packages available as `DP 3.1 Release` tagged `v0.31.0-dp` on GitHub.
+
+### What's New
+
+Updates including:
+
+- `isaac_ros_visual_slam` updated with cuVSLAM 11 for improved performance, on-robot validation guide, and better HAWK support
+- optimizations for CPU overhead for all NITROS packages
+- `isaac_ros_stereo_image_proc` stereo rectification improved
+- new package `isaac_ros_imu_bmi088` for interfacing with Bosch BMI088 IMU
+
+
 ## Isaac ROS 0.30.0 DP (developer preview) April 5, 2023
 
 Packages available as `DP 3 Release` tagged `v0.30.0-dp` on GitHub.

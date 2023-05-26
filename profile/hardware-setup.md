@@ -38,3 +38,7 @@
 ### RealSense
 
 Follow the instructions in the [RealSense setup tutorial](https://github.com/NVIDIA-ISAAC-ROS/.github/blob/main/profile/realsense-setup.md).
+
+### HAWK
+
+Follow the instructions in the [HAWK setup tutorial](https://github.com/NVIDIA-ISAAC-ROS/.github/blob/main/profile/hawk-setup.md).
