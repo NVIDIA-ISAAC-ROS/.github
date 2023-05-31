@@ -25,6 +25,7 @@ Read the latest posts from NVIDIA for more about Isaac ROS.
 
 ## ROS Discourse
 
+- [Isaac ROS May update, cuVSLAM, AI stereo depth, and improved performance](https://discourse.ros.org/t/isaac-ros-may-update-cuvslam-ai-stereo-depth-and-improved-performance/31635/1)
 - [Hyperdrive robotics applications with ros2_benchmark (webinar)](https://discourse.ros.org/t/hyperdrive-robotics-applications-with-ros2-benchmark-webinar/30978)
 - [ROS 2 benchmark open source release](https://discourse.ros.org/t/ros-2-benchmark-open-source-release/30753)
 - [Isaac ROS April update, open source + Orin Nano + Lovelace GPU’s](https://discourse.ros.org/t/isaac-ros-april-update-open-source-orin-nano-lovelace-gpu-s/30755)
