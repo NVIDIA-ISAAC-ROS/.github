@@ -8,7 +8,7 @@ Leopard Imaging's [HAWK](https://www.leopardimaging.com/li-ar0234cs-stereo-gmsl2
 
 ### Camera Configuration
 
-The HAWK camera should be connected to your Jetson via a GMSL expansion board. For example, if working with AGX Orin, see [here](https://www.leopardimaging.com/product/nvidia-jetson-cameras/nvidia-agx-orin-camera-kits/li-jag-adp-gmsl2-8ch/). Please contact your hardware vendor for assistance.
+The HAWK camera should be connected to your Jetson via a GMSL expansion board. For example, if working with AGX Orin, see [here](https://www.leopardimaging.com/product/accessories/adapters-carrier-boards/e3653-a03/). Please contact your hardware vendor for assistance.
 
 ### IMU Configuration
 
