@@ -1,2 +1,2 @@
 [lfs]
-        fetchexclude = isaac_ros-oss-sources.tar.gz
+        fetchexclude = *.tar.gz
