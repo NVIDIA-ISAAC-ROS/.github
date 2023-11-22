@@ -5,6 +5,7 @@
 Welcome to Isaac ROS, a collection of hardware-accelerated, high performance, low latency ROS 2 packages for making autonomous robots which leverage the power of Jetson and other NVIDIA platforms.
 
 * Check out the [getting started](https://nvidia-isaac-ros.github.io/getting_started/index.html) to start using Isaac ROS.
+* Set up the [Isaac ROS Buildfarm](https://nvidia-isaac-ros.github.io/getting_started/isaac_ros_buildfarm_cdn.html) to build ROS 2 packages on NVIDIA Jetson
 * Visit the [repositories and packages](https://nvidia-isaac-ros.github.io/repositories_and_packages/index.html) to learn about specific packages.
 * Familiarize yourself with [concepts](https://nvidia-isaac-ros.github.io/concepts/index.html) essential to Isaac ROS.
 * Compare the [performance](https://nvidia-isaac-ros.github.io/performance/index.html) of the packages on various platforms.
