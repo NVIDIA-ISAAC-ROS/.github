@@ -1,0 +1,63 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+stages:
+  - migrate
+  - report
+
+migrate to lfs:
+  stage: migrate
+  image: debian
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  variables:
+    GITLAB_TOKEN: $ISAAC_ROS_FILE_TO_LFS_TOKEN
+  script:
+    - apt-get update
+    - apt-get install -y curl git
+    - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+    - apt-get install git-lfs
+    - git config user.email "project_66383_bot_94dd085a2c595aa1d1830162fab58a2b@noreply.gitlab-master.nvidia.com"
+    - git config user.name "project_66383_bot_94dd085a2c595aa1d1830162fab58a2b"
+    - git remote set-url gitlab_origin https://oauth2:$GITLAB_TOKEN@gitlab-master.nvidia.com/isaac_ros/nvidia-isaac-ros.git
+    - git lfs install
+    - git lfs migrate import --fixup --yes
+    - | 
+        ( 
+          git commit -am "Migrated to Git LFS" && \
+          git push gitlab_origin HEAD:$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME -o ci.skip && \
+          echo "MIGRATED_FILES=true" >> migrate.env
+        ) \
+        || echo "MIGRATED_FILES=false" >> migrate.env
+  artifacts:
+    reports:
+      dotenv: migrate.env
+
+comment on GitLab MR:
+  stage: report
+  image: debian
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  variables:
+    GITLAB_TOKEN: $ISAAC_ROS_FILE_TO_LFS_TOKEN
+    API_ENDPOINT: "https://gitlab-master.nvidia.com/api/v4"
+  script:  
+    - echo "MIGRATED_FILES=$MIGRATED_FILES"
+    - |-
+        if [[ $MIGRATED_FILES == true ]]; then
+          export MESSAGE="Non-LFS files were successfully migrated to LFS!" 
+        else
+          export MESSAGE="All required files were already stored in LFS. Good job!"
+        fi
+    - echo $MESSAGE
+    - apt-get update
+    - apt-get install -y curl
+    - export DESTINATION=$API_ENDPOINT/projects/$CI_MERGE_REQUEST_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes
+    - 'curl --location 
+      --request POST "$DESTINATION" 
+      --header "PRIVATE-TOKEN: $GITLAB_TOKEN" 
+      --header "Content-Type: application/json" 
+      --data-raw "{ \"body\": \"$MESSAGE\" }"'
+  needs:
+    - job: migrate to lfs
