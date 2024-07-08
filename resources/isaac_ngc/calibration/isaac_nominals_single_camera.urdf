@@ -1,0 +1,48 @@
+<!--
+Copyright (c) 2024, NVIDIA CORPORATION. All rights reserved.
+
+NVIDIA CORPORATION and its licensors retain all intellectual property
+and proprietary rights in and to this software, related documentation
+and any modifications thereto. Any use, reproduction, disclosure or
+distribution of this software and related documentation without an express
+license agreement from NVIDIA CORPORATION is strictly prohibited.
+-->
+<robot name="please_specify_platform_id_name">
+    <link name="front_stereo_camera_imu"/>
+    <link name="front_stereo_camera_right_optical"/>
+    <link name="front_stereo_camera_right"/>
+    <link name="front_stereo_camera_left_optical"/>
+    <link name="front_stereo_camera_left"/>
+    <link name="front_stereo_camera"/>
+    <link name="base_link"/>
+    <joint name="front_stereo_camera_joint" type="fixed">
+        <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+        <parent link="base_link"/>
+        <child link="front_stereo_camera"/>
+    </joint>
+    <joint name="front_stereo_camera_left_joint" type="fixed">
+        <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+        <parent link="front_stereo_camera"/>
+        <child link="front_stereo_camera_left"/>
+    </joint>
+    <joint name="front_stereo_camera_left_optical_joint" type="fixed">
+        <origin xyz="0.000000 0.000000 0.000000" rpy="1.570796 -3.141593 1.570796"/>
+        <parent link="front_stereo_camera_left"/>
+        <child link="front_stereo_camera_left_optical"/>
+    </joint>
+    <joint name="front_stereo_camera_right_joint" type="fixed">
+        <origin xyz="0.000000 -0.150000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+        <parent link="front_stereo_camera"/>
+        <child link="front_stereo_camera_right"/>
+    </joint>
+    <joint name="front_stereo_camera_right_optical_joint" type="fixed">
+        <origin xyz="0.000000 0.000000 0.000000" rpy="1.570796 -3.141593 1.570796"/>
+        <parent link="front_stereo_camera_right"/>
+        <child link="front_stereo_camera_right_optical"/>
+    </joint>
+    <joint name="front_stereo_camera_imu_joint" type="fixed">
+        <origin xyz="0.000000 -0.094700 0.006100" rpy="-0.615480 1.570796 -0.615480"/>
+        <parent link="front_stereo_camera"/>
+        <child link="front_stereo_camera_imu"/>
+    </joint>
+</robot>
