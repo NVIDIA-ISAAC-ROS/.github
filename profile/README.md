@@ -1,6 +1,6 @@
 # NVIDIA Isaac ROS
 
-<div align="left"><a class="reference internal image-reference" href="https://media.githubusercontent.com/media/NVIDIA-ISAAC-ROS/.github/release-4.0/resources/isaac_ros_docs/isaac_ros_header_roscon_2023.png/"><img alt="image" src="https://media.githubusercontent.com/media/NVIDIA-ISAAC-ROS/.github/release-4.0/resources/isaac_ros_docs/isaac_ros_header_roscon_2023.png/" width="auto"/></a></div>
+<div align="left"><a class="reference internal image-reference" href="https://media.githubusercontent.com/media/NVIDIA-ISAAC-ROS/.github/release-4.1/resources/isaac_ros_docs/isaac_ros_header_roscon_2023.png/"><img alt="image" src="https://media.githubusercontent.com/media/NVIDIA-ISAAC-ROS/.github/release-4.1/resources/isaac_ros_docs/isaac_ros_header_roscon_2023.png/" width="auto"/></a></div>
 
 Welcome to Isaac ROS, a collection of NVIDIA-accelerated, high performance, low latency ROS 2 packages for making autonomous robots which leverage the power of Jetson and other NVIDIA platforms.
 
