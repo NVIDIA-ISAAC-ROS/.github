@@ -24,11 +24,11 @@ on:
         required: true
         type: string
       x86_runner_labels:
-        description: JSON array selecting a dockerless x86 GPU runner.
+        description: JSON array selecting an x86 GPU Docker runner.
         required: true
         type: string
       thor_runner_labels:
-        description: JSON array selecting a dockerless Jetson Thor runner.
+        description: JSON array selecting a Jetson Thor Docker runner.
         required: true
         type: string
       x86_debian_dist:
@@ -46,6 +46,10 @@ permissions:
 jobs:
   build-and-test:
     name: Build and test (${{ matrix.platform }})
+    # Never execute untrusted fork code on privileged self-hosted GPU runners.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     strategy:
       fail-fast: false
       matrix:
@@ -53,11 +57,13 @@ jobs:
           - platform: x86
             expected_arch: x86_64
             debian_arch: amd64
+            isaac_ros_platform: amd64
             runner_labels: ${{ inputs.x86_runner_labels }}
             debian_dist: ${{ inputs.x86_debian_dist }}
           - platform: thor
             expected_arch: aarch64
             debian_arch: arm64
+            isaac_ros_platform: arm64-jetpack
             runner_labels: ${{ inputs.thor_runner_labels }}
             debian_dist: ${{ inputs.thor_debian_dist }}
 
@@ -73,6 +79,7 @@ jobs:
       CI_EXPECTED_ARCH: ${{ matrix.expected_arch }}
       CI_DEBIAN_ARCH: ${{ matrix.debian_arch }}
       CI_DEBIAN_DIST: ${{ matrix.debian_dist }}
+      CI_ISAAC_ROS_PLATFORM: ${{ matrix.isaac_ros_platform }}
       CI_SNAPSHOT_ID: ${{ inputs.snapshot_id }}
       CI_REPOSITORY_NAME: ${{ github.event.repository.name }}
       CI_EXTRA_ROSDEPS_REVISION: "b6d94a00cf8779c31de02e57d39067d6437541c3"
@@ -89,7 +96,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sudo rm -rf -- "$GITHUB_WORKSPACE/ros_ws"
+          rm -rf -- "$GITHUB_WORKSPACE/ros_ws"
 
       - name: Check out validation source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -99,8 +106,10 @@ jobs:
           path: ros_ws/src/source
           persist-credentials: false
 
-      - name: Validate dockerless runner and immutable inputs
+      - name: Validate runner and prepare documented Isaac ROS image
         shell: bash
+        env:
+          ISAAC_ROS_WS: ${{ github.workspace }}
         run: |
           set -euo pipefail
           [[ "$CI_SNAPSHOT_ID" =~ ^[A-Za-z0-9][A-Za-z0-9._+-]*$ ]]
@@ -112,6 +121,8 @@ jobs:
               echo "validation-* repositories must use the S3 snapshot" >&2
               exit 1
             fi
+            snapshot_path="${CI_APT_REPOSITORY_URL#file://}"
+            test -r "$snapshot_path/.isaac-ros-snapshot-layout-v2"
           elif [[ ! "$CI_APT_REPOSITORY_URL" =~ \
             ^https://isaac\.download\.nvidia\.com/isaac-ros/release-[0-9]+(\.[0-9]+)?/?$ \
           ]]; then
@@ -151,6 +162,108 @@ jobs:
               --is-ancestor "$source_head" HEAD
           fi
 
+          test "$(uname -m)" = "$CI_EXPECTED_ARCH"
+          command -v docker
+          command -v git-lfs
+          command -v isaac-ros
+          docker info >/dev/null
+
+          isaac_ros_status="$(isaac-ros status --output json)"
+          echo "$isaac_ros_status"
+          grep -Fq '"mode": "docker"' <<<"$isaac_ros_status"
+          grep -Fq '"activation": "inactive"' <<<"$isaac_ros_status"
+
+          install -d "$GITHUB_WORKSPACE/ros_ws/ci-logs"
+          activate_log="$GITHUB_WORKSPACE/ros_ws/ci-logs/$CI_PLATFORM-isaac-ros-activate.log"
+          set +e
+          isaac-ros activate --build-only --no-push 2>&1 | tee "$activate_log"
+          activate_status=${PIPESTATUS[0]}
+          set -e
+          if (( activate_status != 0 )); then
+            exit "$activate_status"
+          fi
+
+          image_alias="cached_isaac_run_dev_image_local:latest"
+          docker image inspect "$image_alias" >/dev/null
+          public_image_digest="$(
+            docker image inspect "$image_alias" \
+              --format '{{range .RepoDigests}}{{println .}}{{end}}' \
+              | grep -E '^nvcr\.io/nvidia/isaac/ros@sha256:[0-9a-f]{64}$' \
+              | head -1 || true
+          )"
+          if [[ -z "$public_image_digest" ]]; then
+            echo "Isaac ROS CLI did not resolve the documented public NGC image" >&2
+            docker image inspect "$image_alias" --format '{{json .RepoDigests}}' >&2
+            exit 1
+          fi
+          {
+            printf "CI_ISAAC_ROS_IMAGE=%s\n" "$public_image_digest"
+            printf "CI_ISAAC_ROS_IMAGE_ID=%s\n" \
+              "$(docker image inspect "$image_alias" --format '{{.Id}}')"
+          } >> "$GITHUB_ENV"
+          {
+            printf "image=%s\n" "$public_image_digest"
+            printf "image_id=%s\n" \
+              "$(docker image inspect "$image_alias" --format '{{.Id}}')"
+          } > "$GITHUB_WORKSPACE/ros_ws/ci-logs/$CI_PLATFORM-container-image.txt"
+
+      - name: Install dependencies, build, and test in Isaac ROS container
+        shell: bash
+        run: |
+          set -euo pipefail
+          container_name="isaac-ros-${{ github.repository_id }}-${{
+            github.run_id }}-${{ github.run_attempt }}-$CI_PLATFORM"
+          docker rm --force "$container_name" >/dev/null 2>&1 || true
+
+          docker_args=(
+            run
+            --rm
+            --interactive
+            --name "$container_name"
+            --privileged
+            --network host
+            --ipc host
+            --gpus all
+            --workdir /workspaces/isaac_ros-dev
+            --volume "$GITHUB_WORKSPACE:/workspaces/isaac_ros-dev"
+            --env "HOST_USER_UID=$(id -u)"
+            --env "HOST_USER_GID=$(id -g)"
+            --env ISAAC_ROS_WS=/workspaces/isaac_ros-dev
+            --env NVIDIA_VISIBLE_DEVICES=all
+            --env NVIDIA_DRIVER_CAPABILITIES=all
+            --env DEBIAN_FRONTEND=noninteractive
+            --env CI_PLATFORM
+            --env CI_EXPECTED_ARCH
+            --env CI_DEBIAN_ARCH
+            --env CI_DEBIAN_DIST
+            --env CI_ISAAC_ROS_PLATFORM
+            --env CI_SNAPSHOT_ID
+            --env CI_REPOSITORY_NAME
+            --env CI_EXTRA_ROSDEPS_REVISION
+            --env CI_APT_REPOSITORY_URL
+            --env CI_REPOSITORY_KEY_SHA256
+            --env ROS_DISTRO
+            --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh
+          )
+          if [[ "$CI_REPOSITORY_NAME" == validation-* ]]; then
+            docker_args+=(
+              --volume /mnt/s3-storage:/mnt/s3-storage:ro
+            )
+          fi
+
+          docker "${docker_args[@]}" "$CI_ISAAC_ROS_IMAGE" /bin/bash -s <<'ISAAC_ROS_CI'
+          set -euo pipefail
+          workspace="$ISAAC_ROS_WS"
+          source_root="$workspace/ros_ws/src/source"
+          logs="$workspace/ros_ws/ci-logs"
+          setup_dir="/tmp/isaac-ros-validation-$CI_PLATFORM"
+          apt_source="/etc/apt/sources.list.d/isaac-ros-ci.list"
+          rosdep_source="/etc/ros/rosdep/sources.list.d/00-nvidia-isaac-ci.list"
+          repository_key="$setup_dir/repos.key"
+          keyring="$setup_dir/nvidia-isaac-ros.gpg"
+          extra_rosdeps="$setup_dir/extra_rosdeps.yaml"
+          apt_repository_url="${CI_APT_REPOSITORY_URL%/}"
+
           source /etc/os-release
           test "${VERSION_CODENAME:-}" = noble
           test "$(uname -m)" = "$CI_EXPECTED_ARCH"
@@ -158,50 +271,26 @@ jobs:
           command -v colcon
           command -v curl
           command -v gpg
+          command -v isaac-ros
           command -v rosdep
           command -v sha256sum
+
+          isaac_ros_status="$(isaac-ros status --output json)"
+          echo "$isaac_ros_status"
+          grep -Fq '"mode": "docker"' <<<"$isaac_ros_status"
+          grep -Fq '"activation": "active"' <<<"$isaac_ros_status"
+          sudo -n true
 
           if command -v nvidia-smi >/dev/null 2>&1; then
             nvidia-smi
           elif compgen -G "/dev/nvhost*" >/dev/null || test -e /dev/nvidiactl; then
             echo "NVIDIA device nodes are available"
           else
-            echo "No NVIDIA GPU is visible on the dockerless runner" >&2
+            echo "No NVIDIA GPU is visible in the Isaac ROS container" >&2
             exit 1
           fi
 
-      - name: Configure APT repository and install dependencies with rosdep
-        shell: bash
-        run: |
-          set -euo pipefail
-          run_key="${{ github.repository_id }}-${{ github.run_id }}-${{
-            github.run_attempt }}-${{ matrix.platform }}"
-          setup_dir="$RUNNER_TEMP/isaac-ros-$run_key"
-          apt_source="/etc/apt/sources.list.d/isaac-ros-ci-$run_key.list"
-          apt_preferences="/etc/apt/preferences.d/isaac-ros-ci-$run_key"
-          rosdep_source="/etc/ros/rosdep/sources.list.d/00-nvidia-isaac-$run_key.list"
-          repository_key="$setup_dir/repos.key"
-          keyring="$setup_dir/nvidia-isaac-ros.gpg"
-          extra_rosdeps="$setup_dir/extra_rosdeps.yaml"
-          apt_repository_url="${CI_APT_REPOSITORY_URL%/}"
-
-          sudo install -d \
-            /etc/apt/sources.list.d \
-            /etc/apt/preferences.d \
-            /etc/ros/rosdep/sources.list.d
-          sudo find /etc/apt/sources.list.d \
-            -maxdepth 1 -type f \
-            \( -name 'isaac-ros-ci-*.list' -o \
-               -name 'isaac-ros-sqa-*.list' \) \
-            -delete
-          sudo find /etc/apt/preferences.d \
-            -maxdepth 1 -type f \
-            \( -name 'isaac-ros-ci-*' -o -name 'isaac-ros-sqa-*' \) \
-            -delete
-          sudo find /etc/ros/rosdep/sources.list.d \
-            -maxdepth 1 -type f -name '00-nvidia-isaac-*.list' -delete
-
-          install -d "$setup_dir" "$GITHUB_WORKSPACE/ros_ws/ci-logs"
+          install -d "$setup_dir" "$logs"
           curl -fsSL https://isaac.download.nvidia.com/isaac-ros/repos.key \
             --output "$repository_key"
           printf "%s  %s\n" "$CI_REPOSITORY_KEY_SHA256" "$repository_key" \
@@ -212,14 +301,23 @@ jobs:
             "https://raw.githubusercontent.com/NVIDIA-ISAAC-ROS/.github/${CI_EXTRA_ROSDEPS_REVISION}/ci/extra_rosdeps.yaml" \
             --output "$extra_rosdeps"
 
+          mapfile -t existing_isaac_sources < <(
+            grep -lE \
+              'isaac\.download\.nvidia\.(com|cn)/isaac-ros/|file:/+mnt/s3-storage/validation-debs/' \
+              /etc/apt/sources.list.d/* 2>/dev/null || true
+          )
+          if (( ${#existing_isaac_sources[@]} > 0 )); then
+            sudo rm -f -- "${existing_isaac_sources[@]}"
+          fi
+          sudo find /etc/ros/rosdep/sources.list.d \
+            -maxdepth 1 -type f \
+            \( -name '00-nvidia-isaac.list' -o \
+               -name '00-nvidia-isaac-*.list' \) \
+            -delete
+
           printf "deb [signed-by=%s] %s %s main\n" \
             "$keyring" "$apt_repository_url" "$CI_DEBIAN_DIST" \
             > "$setup_dir/apt-source.list"
-          printf "%s\n" \
-            "Package: *" \
-            "Pin: origin isaac.download.nvidia.com" \
-            "Pin-Priority: 400" \
-            > "$setup_dir/apt-preferences"
           printf "yaml file://%s\n" "$extra_rosdeps" \
             > "$setup_dir/rosdep-source.list"
 
@@ -227,7 +325,6 @@ jobs:
             sudo rosdep init
           fi
           sudo install -m 0644 "$setup_dir/apt-source.list" "$apt_source"
-          sudo install -m 0644 "$setup_dir/apt-preferences" "$apt_preferences"
           sudo install -m 0644 "$setup_dir/rosdep-source.list" "$rosdep_source"
 
           sudo apt-get update
@@ -236,16 +333,15 @@ jobs:
           source "/opt/ros/${ROS_DISTRO}/setup.bash"
           rosdep update
           rosdep install \
-            --from-paths "$GITHUB_WORKSPACE/ros_ws/src/source" \
+            --from-paths "$source_root" \
             --ignore-src \
             --rosdistro "$ROS_DISTRO" \
             --yes
 
           dpkg-query -W -f='${binary:Package}\t${Version}\n' \
             | sort \
-            > "$GITHUB_WORKSPACE/ros_ws/ci-logs/${CI_PLATFORM}-debians.tsv"
-          apt-cache policy \
-            > "$GITHUB_WORKSPACE/ros_ws/ci-logs/${CI_PLATFORM}-apt-policy.txt"
+            > "$logs/${CI_PLATFORM}-debians.tsv"
+          apt-cache policy > "$logs/${CI_PLATFORM}-apt-policy.txt"
 
           repository_index_uri="${apt_repository_url}/dists/${CI_DEBIAN_DIST}/main/binary-${CI_DEBIAN_ARCH}/Packages"
           snapshot_index="$(
@@ -284,7 +380,7 @@ jobs:
             | sort -u \
             > "$setup_dir/snapshot-versions.tsv"
 
-          validation_debs="$GITHUB_WORKSPACE/ros_ws/ci-logs/${CI_PLATFORM}-validation-debians.tsv"
+          validation_debs="$logs/${CI_PLATFORM}-validation-debians.tsv"
           : > "$validation_debs"
           while IFS=$'\t' read -r package version; do
             package_without_arch="${package%%:*}"
@@ -300,53 +396,36 @@ jobs:
                 exit 1
               fi
             fi
-          done < "$GITHUB_WORKSPACE/ros_ws/ci-logs/${CI_PLATFORM}-debians.tsv"
+          done < "$logs/${CI_PLATFORM}-debians.tsv"
 
-      - name: Build every package in this repository from source
-        shell: bash
-        run: |
-          set -euo pipefail
-          # shellcheck source=/dev/null
-          source "/opt/ros/${ROS_DISTRO}/setup.bash"
-          cd "$GITHUB_WORKSPACE/ros_ws"
+          cd "$workspace/ros_ws"
           mapfile -t packages < <(
-            colcon list \
-              --base-paths "$GITHUB_WORKSPACE/ros_ws/src/source" \
-              --names-only
+            colcon list --base-paths "$source_root" --names-only
           )
           if (( ${#packages[@]} == 0 )); then
             echo "No ROS packages were discovered in the validation repository" >&2
             exit 1
           fi
           printf "%s\n" "${packages[@]}" \
-            | tee "ci-logs/${CI_PLATFORM}-packages.txt"
+            | tee "$logs/${CI_PLATFORM}-packages.txt"
           colcon build \
-            --base-paths "$GITHUB_WORKSPACE/ros_ws/src/source" \
+            --base-paths "$source_root" \
             --packages-select "${packages[@]}" \
             --symlink-install \
             --continue-on-error \
             --event-handlers console_direct+ \
             --cmake-args -DCMAKE_BUILD_TYPE=Release \
-            2>&1 | tee "ci-logs/${CI_PLATFORM}-build.log"
+            2>&1 | tee "$logs/${CI_PLATFORM}-build.log"
 
-      - name: Run every package test
-        shell: bash
-        run: |
-          set -euo pipefail
-          # shellcheck source=/dev/null
-          source "/opt/ros/${ROS_DISTRO}/setup.bash"
-          cd "$GITHUB_WORKSPACE/ros_ws"
           # shellcheck source=/dev/null
           source install/setup.bash
-          mapfile -t packages < "ci-logs/${CI_PLATFORM}-packages.txt"
-
           set +e
           test_status=0
           colcon test \
             --packages-select "${packages[@]}" \
             --continue-on-error \
             --event-handlers console_direct+ \
-            2>&1 | tee "ci-logs/${CI_PLATFORM}-test.log" \
+            2>&1 | tee "$logs/${CI_PLATFORM}-test.log" \
             || test_status=${PIPESTATUS[0]}
 
           result_status=0
@@ -356,18 +435,20 @@ jobs:
             exit "$test_status"
           fi
           exit "$result_status"
+          ISAAC_ROS_CI
 
       - name: Record run inputs
         if: always()
         shell: bash
         run: |
           {
-            echo "### Isaac ROS dockerless validation: $CI_PLATFORM"
+            echo "### Isaac ROS container validation: $CI_PLATFORM"
             echo
             echo "- Repository: \`$GITHUB_REPOSITORY\`"
             echo "- Dependency snapshot: \`$CI_SNAPSHOT_ID\`"
             echo "- APT repository: \`$CI_APT_REPOSITORY_URL\`"
             echo "- Debian distribution: \`$CI_DEBIAN_DIST\`"
+            echo "- Container image: \`${CI_ISAAC_ROS_IMAGE:-unresolved}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload build and test logs
@@ -382,15 +463,10 @@ jobs:
             ros_ws/log/**
             ros_ws/build/**/test_results/**/*.xml
 
-      - name: Remove temporary SQA configuration
+      - name: Remove validation container
         if: always()
         shell: bash
         run: |
-          set -euo pipefail
-          run_key="${{ github.repository_id }}-${{ github.run_id }}-${{
-            github.run_attempt }}-${{ matrix.platform }}"
-          sudo rm -f -- \
-            "/etc/apt/sources.list.d/isaac-ros-ci-$run_key.list" \
-            "/etc/apt/preferences.d/isaac-ros-ci-$run_key" \
-            "/etc/ros/rosdep/sources.list.d/00-nvidia-isaac-$run_key.list"
-          rm -rf -- "$RUNNER_TEMP/isaac-ros-$run_key"
+          container_name="isaac-ros-${{ github.repository_id }}-${{
+            github.run_id }}-${{ github.run_attempt }}-$CI_PLATFORM"
+          docker rm --force "$container_name" >/dev/null 2>&1 || true
