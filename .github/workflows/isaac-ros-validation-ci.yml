@@ -374,6 +374,31 @@ jobs:
             --rosdistro "$ROS_DISTRO" \
             -y
 
+          trtexec_path="$(command -v trtexec || true)"
+          if [[ -n "$trtexec_path" ]]; then
+            trtexec_wrapper="$setup_dir/trtexec-with-log"
+            cat > "$trtexec_wrapper" <<'ISAAC_ROS_TRTEXEC'
+          #!/bin/bash
+          set -o nounset -o pipefail
+          : "${ISAAC_ROS_CI_TRTEXEC_BIN:?}"
+          : "${ISAAC_ROS_CI_TRTEXEC_LOG_PREFIX:?}"
+          trtexec_log="${ISAAC_ROS_CI_TRTEXEC_LOG_PREFIX}-$$.log"
+          {
+            printf 'command:'
+            printf ' %q' "$ISAAC_ROS_CI_TRTEXEC_BIN" "$@"
+            printf '\n'
+            "$ISAAC_ROS_CI_TRTEXEC_BIN" "$@"
+            trtexec_status=$?
+            printf 'exit_status: %d\n' "$trtexec_status"
+          } > "$trtexec_log" 2>&1
+          exit "$trtexec_status"
+          ISAAC_ROS_TRTEXEC
+            chmod 0755 "$trtexec_wrapper"
+            export ISAAC_ROS_CI_TRTEXEC_BIN="$trtexec_path"
+            export ISAAC_ROS_CI_TRTEXEC_LOG_PREFIX="$logs/$CI_PLATFORM-trtexec"
+            export TENSORRT_COMMAND="$trtexec_wrapper"
+          fi
+
           dpkg-query -W -f='${binary:Package}\t${Version}\n' \
             | sort \
             > "$logs/${CI_PLATFORM}-debians.tsv"
