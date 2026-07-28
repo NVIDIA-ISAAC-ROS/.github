@@ -206,6 +206,7 @@ jobs:
             --env "HOST_USER_UID=$(id -u)"
             --env "HOST_USER_GID=$(id -g)"
             --env ISAAC_ROS_WS=/workspaces/isaac_ros-dev
+            --env ISAAC_ROS_ACCEPT_EULA=1
             --env NVIDIA_VISIBLE_DEVICES=all
             --env NVIDIA_DRIVER_CAPABILITIES=all
             --env DEBIAN_FRONTEND=noninteractive
