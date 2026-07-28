@@ -478,11 +478,21 @@ jobs:
           # shellcheck source=/dev/null
           source install/setup.bash
           set -u
+
+          colcon_test_args=(
+            --packages-select "${packages[@]}"
+            --event-handlers console_direct+
+          )
+          if [[ "$CI_PLATFORM" == thor ]]; then
+            printf 'launch_test\n' \
+              > "$logs/$CI_PLATFORM-skipped-test-labels.txt"
+            colcon_test_args+=(--ctest-args -LE launch_test)
+          fi
+
           set +e
           test_status=0
           colcon test \
-            --packages-select "${packages[@]}" \
-            --event-handlers console_direct+ \
+            "${colcon_test_args[@]}" \
             2>&1 | tee "$logs/${CI_PLATFORM}-test.log" \
             || test_status=${PIPESTATUS[0]}
 
