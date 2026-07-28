@@ -461,7 +461,6 @@ jobs:
           test_status=0
           colcon test \
             --packages-select "${packages[@]}" \
-            --continue-on-error \
             --event-handlers console_direct+ \
             2>&1 | tee "$logs/${CI_PLATFORM}-test.log" \
             || test_status=${PIPESTATUS[0]}
