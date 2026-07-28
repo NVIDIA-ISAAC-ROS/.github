@@ -126,6 +126,7 @@ jobs:
             fi
             snapshot_path="${CI_APT_REPOSITORY_URL#file://}"
             test -r "$snapshot_path/.isaac-ros-snapshot-layout-v2"
+            test -r "$snapshot_path/.isaac-ros-ci/SHA256SUMS"
           elif [[ ! "$CI_APT_REPOSITORY_URL" =~ \
             ^https://isaac\.download\.nvidia\.com/isaac-ros/release-[0-9]+(\.[0-9]+)?/?$ \
           ]]; then
@@ -275,9 +276,62 @@ jobs:
             | sha256sum --check --strict -
           gpg --dearmor --yes --output "$keyring" "$repository_key"
           chmod 0644 "$keyring"
-          curl -fsSL \
-            "https://raw.githubusercontent.com/NVIDIA-ISAAC-ROS/.github/${CI_EXTRA_ROSDEPS_REVISION}/ci/extra_rosdeps.yaml" \
-            --output "$extra_rosdeps"
+
+          if [[ "$CI_REPOSITORY_NAME" == validation-* ]]; then
+            validation_environment="$(
+              realpath -e \
+                "${apt_repository_url#file://}/.isaac-ros-ci"
+            )"
+            case "$validation_environment" in
+              /mnt/s3-storage/validation-debs/*/"$CI_SNAPSHOT_ID"/.isaac-ros-ci)
+                ;;
+              *)
+                echo "Invalid validation environment path" >&2
+                exit 1
+                ;;
+            esac
+            (
+              cd "$validation_environment"
+              sha256sum --check --strict SHA256SUMS
+            )
+            install -m 0644 \
+              "$validation_environment/rosdep/extra_rosdeps.yaml" \
+              "$extra_rosdeps"
+
+            common_preferences="$(
+              realpath -e \
+                "$validation_environment/apt-preferences/common"
+            )"
+            platform_preferences="$validation_environment/apt-preferences/platforms/$CI_ISAAC_ROS_PLATFORM"
+            shopt -s nullglob
+            validation_preferences=(
+              "$common_preferences/"*.pref
+            )
+            if [[ -d "$platform_preferences" ]]; then
+              validation_preferences+=(
+                "$platform_preferences/"*.pref
+              )
+            fi
+            shopt -u nullglob
+            if (( ${#validation_preferences[@]} == 0 )); then
+              echo "Validation environment contains no APT preferences" >&2
+              exit 1
+            fi
+            sudo find /etc/apt/preferences.d \
+              -maxdepth 1 -type f \
+              \( -name '*isaac-ros-cuda*.pref' -o \
+                 -name '*isaac-ros-opencv*.pref' -o \
+                 -name '*isaac-ros-tensorrt*.pref' -o \
+                 -name '*isaac-ros-jetson*.pref' \) \
+              -delete
+            sudo install -m 0644 \
+              "${validation_preferences[@]}" \
+              /etc/apt/preferences.d/
+          else
+            curl -fsSL \
+              "https://raw.githubusercontent.com/NVIDIA-ISAAC-ROS/.github/${CI_EXTRA_ROSDEPS_REVISION}/ci/extra_rosdeps.yaml" \
+              --output "$extra_rosdeps"
+          fi
 
           mapfile -t existing_isaac_sources < <(
             grep -lE \
