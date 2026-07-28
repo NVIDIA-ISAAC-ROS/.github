@@ -58,12 +58,16 @@ jobs:
             expected_arch: x86_64
             debian_arch: amd64
             isaac_ros_platform: amd64
+            isaac_ros_image: >-
+              nvcr.io/nvidia/isaac/ros@sha256:3efda0f0e69d0e2465f47759b65075b321f9630e4e9145983931dd5988650c06
             runner_labels: ${{ inputs.x86_runner_labels }}
             debian_dist: ${{ inputs.x86_debian_dist }}
           - platform: thor
             expected_arch: aarch64
             debian_arch: arm64
             isaac_ros_platform: arm64-jetpack
+            isaac_ros_image: >-
+              nvcr.io/nvidia/isaac/ros@sha256:806fd525ae6404aa3a10d9c27b13b6e6f312361b839b9769fd3cc768a90d7940
             runner_labels: ${{ inputs.thor_runner_labels }}
             debian_dist: ${{ inputs.thor_debian_dist }}
 
@@ -80,6 +84,7 @@ jobs:
       CI_DEBIAN_ARCH: ${{ matrix.debian_arch }}
       CI_DEBIAN_DIST: ${{ matrix.debian_dist }}
       CI_ISAAC_ROS_PLATFORM: ${{ matrix.isaac_ros_platform }}
+      CI_ISAAC_ROS_IMAGE: ${{ matrix.isaac_ros_image }}
       CI_SNAPSHOT_ID: ${{ inputs.snapshot_id }}
       CI_REPOSITORY_NAME: ${{ github.event.repository.name }}
       CI_EXTRA_ROSDEPS_REVISION: "b6d94a00cf8779c31de02e57d39067d6437541c3"
@@ -108,8 +113,6 @@ jobs:
 
       - name: Validate runner and prepare documented Isaac ROS image
         shell: bash
-        env:
-          ISAAC_ROS_WS: ${{ github.workspace }}
         run: |
           set -euo pipefail
           [[ "$CI_SNAPSHOT_ID" =~ ^[A-Za-z0-9][A-Za-z0-9._+-]*$ ]]
@@ -165,46 +168,19 @@ jobs:
           test "$(uname -m)" = "$CI_EXPECTED_ARCH"
           command -v docker
           command -v git-lfs
-          command -v isaac-ros
           docker info >/dev/null
 
-          isaac_ros_status="$(isaac-ros status --output json)"
-          echo "$isaac_ros_status"
-          grep -Fq '"mode": "docker"' <<<"$isaac_ros_status"
-          grep -Fq '"activation": "inactive"' <<<"$isaac_ros_status"
-
           install -d "$GITHUB_WORKSPACE/ros_ws/ci-logs"
-          activate_log="$GITHUB_WORKSPACE/ros_ws/ci-logs/$CI_PLATFORM-isaac-ros-activate.log"
-          set +e
-          isaac-ros activate --build-only --no-push 2>&1 | tee "$activate_log"
-          activate_status=${PIPESTATUS[0]}
-          set -e
-          if (( activate_status != 0 )); then
-            exit "$activate_status"
-          fi
-
-          image_alias="cached_isaac_run_dev_image_local:latest"
-          docker image inspect "$image_alias" >/dev/null
-          public_image_digest="$(
-            docker image inspect "$image_alias" \
-              --format '{{range .RepoDigests}}{{println .}}{{end}}' \
-              | grep -E '^nvcr\.io/nvidia/isaac/ros@sha256:[0-9a-f]{64}$' \
-              | head -1 || true
-          )"
-          if [[ -z "$public_image_digest" ]]; then
-            echo "Isaac ROS CLI did not resolve the documented public NGC image" >&2
-            docker image inspect "$image_alias" --format '{{json .RepoDigests}}' >&2
-            exit 1
-          fi
+          image_log="$GITHUB_WORKSPACE/ros_ws/ci-logs/$CI_PLATFORM-container-image-pull.log"
+          docker pull "$CI_ISAAC_ROS_IMAGE" 2>&1 | tee "$image_log"
+          test "$(
+            docker image inspect "$CI_ISAAC_ROS_IMAGE" \
+              --format '{{.Architecture}}'
+          )" = "$CI_DEBIAN_ARCH"
           {
-            printf "CI_ISAAC_ROS_IMAGE=%s\n" "$public_image_digest"
-            printf "CI_ISAAC_ROS_IMAGE_ID=%s\n" \
-              "$(docker image inspect "$image_alias" --format '{{.Id}}')"
-          } >> "$GITHUB_ENV"
-          {
-            printf "image=%s\n" "$public_image_digest"
+            printf "image=%s\n" "$CI_ISAAC_ROS_IMAGE"
             printf "image_id=%s\n" \
-              "$(docker image inspect "$image_alias" --format '{{.Id}}')"
+              "$(docker image inspect "$CI_ISAAC_ROS_IMAGE" --format '{{.Id}}')"
           } > "$GITHUB_WORKSPACE/ros_ws/ci-logs/$CI_PLATFORM-container-image.txt"
 
       - name: Install dependencies, build, and test in Isaac ROS container
@@ -277,6 +253,8 @@ jobs:
 
           isaac_ros_status="$(isaac-ros status --output json)"
           echo "$isaac_ros_status"
+          grep -Fxq 'ISAAC_ROS_ENVIRONMENT=docker-activated' \
+            /etc/isaac-ros-cli/environment.conf
           grep -Fq '"mode": "docker"' <<<"$isaac_ros_status"
           grep -Fq '"activation": "active"' <<<"$isaac_ros_status"
           sudo -n true
