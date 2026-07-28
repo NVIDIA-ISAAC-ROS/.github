@@ -604,6 +604,16 @@ jobs:
           result_status=0
           "${test_command[@]}" test-result --verbose || result_status=$?
           set -e
+          if [[ "$CI_PLATFORM" == thor ]]; then
+            # Root-run tests can create root-owned CTest and colcon log
+            # directories. Return generated state to the mapped runner user so
+            # artifact upload and the next job's unprivileged reset can read
+            # and remove it.
+            sudo -n chown -R -- \
+              "$(id -u):$(id -g)" \
+              "$workspace/ros_ws/build" \
+              "$workspace/ros_ws/log"
+          fi
           if (( test_status != 0 )); then
             exit "$test_status"
           fi
