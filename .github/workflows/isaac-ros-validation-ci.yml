@@ -367,37 +367,33 @@ jobs:
           # shellcheck source=/dev/null
           source "/opt/ros/${ROS_DISTRO}/setup.bash"
           set -u
+
+          if [[ "$CI_PLATFORM" == thor ]]; then
+            skipped_assets_log="$logs/$CI_PLATFORM-skipped-asset-packages.txt"
+            : > "$skipped_assets_log"
+            while IFS= read -r -d '' cmake_file; do
+              if ! grep -Eq \
+                '^[[:space:]]*install_isaac_ros_asset[[:space:]]*\(' \
+                "$cmake_file"; then
+                continue
+              fi
+              package_dir="${cmake_file%/CMakeLists.txt}"
+              test -f "$package_dir/package.xml"
+              touch "$package_dir/COLCON_IGNORE"
+              printf '%s\n' "${package_dir#"$source_root"/}" \
+                >> "$skipped_assets_log"
+            done < <(
+              find "$source_root" -type f -name CMakeLists.txt -print0
+            )
+            sort -o "$skipped_assets_log" "$skipped_assets_log"
+          fi
+
           rosdep update
           rosdep install \
             --from-paths "$source_root" \
             --ignore-src \
             --rosdistro "$ROS_DISTRO" \
             -y
-
-          trtexec_path="$(command -v trtexec || true)"
-          if [[ -n "$trtexec_path" ]]; then
-            trtexec_wrapper="$setup_dir/trtexec-with-log"
-            cat > "$trtexec_wrapper" <<'ISAAC_ROS_TRTEXEC'
-          #!/bin/bash
-          set -o nounset -o pipefail
-          : "${ISAAC_ROS_CI_TRTEXEC_BIN:?}"
-          : "${ISAAC_ROS_CI_TRTEXEC_LOG_PREFIX:?}"
-          trtexec_log="${ISAAC_ROS_CI_TRTEXEC_LOG_PREFIX}-$$.log"
-          {
-            printf 'command:'
-            printf ' %q' "$ISAAC_ROS_CI_TRTEXEC_BIN" "$@"
-            printf '\n'
-            "$ISAAC_ROS_CI_TRTEXEC_BIN" "$@"
-            trtexec_status=$?
-            printf 'exit_status: %d\n' "$trtexec_status"
-          } > "$trtexec_log" 2>&1
-          exit "$trtexec_status"
-          ISAAC_ROS_TRTEXEC
-            chmod 0755 "$trtexec_wrapper"
-            export ISAAC_ROS_CI_TRTEXEC_BIN="$trtexec_path"
-            export ISAAC_ROS_CI_TRTEXEC_LOG_PREFIX="$logs/$CI_PLATFORM-trtexec"
-            export TENSORRT_COMMAND="$trtexec_wrapper"
-          fi
 
           dpkg-query -W -f='${binary:Package}\t${Version}\n' \
             | sort \
