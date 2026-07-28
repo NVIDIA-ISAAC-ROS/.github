@@ -584,11 +584,40 @@ jobs:
           if [[ "$CI_PLATFORM" == thor ]]; then
             # Launch tests require Thor's root-only NVIDIA capability device.
             # The container has no CI secrets and fork-origin PRs are rejected
-            # before runner allocation. Preserve the sourced ROS environment
-            # while elevating only the test process inside the container.
+            # before runner allocation. sudo filters PATH/PYTHONPATH even with
+            # --preserve-env, so pass only the sourced ROS variables required
+            # by colcon and its CTest subprocesses through an explicit env.
+            test_environment=()
+            test_environment_names=(
+              AMENT_PREFIX_PATH
+              CMAKE_PREFIX_PATH
+              COLCON_PREFIX_PATH
+              CYCLONEDDS_URI
+              FASTRTPS_DEFAULT_PROFILES_FILE
+              ISAAC_ROS_ACCEPT_EULA
+              ISAAC_ROS_WS
+              LD_LIBRARY_PATH
+              PATH
+              PYTHONPATH
+              RCUTILS_COLORIZED_OUTPUT
+              RMW_IMPLEMENTATION
+              ROS_AUTOMATIC_DISCOVERY_RANGE
+              ROS_DISTRO
+              ROS_DOMAIN_ID
+              ROS_PYTHON_VERSION
+              ROS_VERSION
+            )
+            for environment_name in "${test_environment_names[@]}"; do
+              if [[ -v "$environment_name" ]]; then
+                test_environment+=(
+                  "$environment_name=${!environment_name}"
+                )
+              fi
+            done
             test_command=(
               sudo -n
-              --preserve-env
+              /usr/bin/env
+              "${test_environment[@]}"
               /usr/bin/colcon
             )
           fi
