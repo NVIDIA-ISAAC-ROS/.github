@@ -200,7 +200,6 @@ jobs:
             --privileged
             --network host
             --ipc host
-            --gpus all
             --workdir /workspaces/isaac_ros-dev
             --volume "$GITHUB_WORKSPACE:/workspaces/isaac_ros-dev"
             --env "HOST_USER_UID=$(id -u)"
@@ -223,6 +222,45 @@ jobs:
             --env ROS_DISTRO
             --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh
           )
+
+          gpu_args=(--gpus all)
+          if [[ "$CI_PLATFORM" == thor && -f /etc/igx-release ]]; then
+            cdi_devices=()
+            if command -v nvidia-ctk >/dev/null 2>&1; then
+              mapfile -t cdi_devices < <(
+                nvidia-ctk cdi list 2>/dev/null || true
+              )
+            fi
+            cdi_gpu_all=false
+            for cdi_device in "${cdi_devices[@]}"; do
+              if [[ "$cdi_device" == nvidia.com/gpu=all ]]; then
+                cdi_gpu_all=true
+                break
+              fi
+            done
+            if [[ "$cdi_gpu_all" == true ]]; then
+              gpu_args=(--device=nvidia.com/gpu=all)
+            else
+              gpu_args=(--runtime=nvidia --gpus all)
+            fi
+          fi
+          docker_args+=("${gpu_args[@]}")
+
+          {
+            printf 'host_arch=%s\n' "$(uname -m)"
+            if [[ -r /etc/nv_tegra_release ]]; then
+              printf 'nv_tegra_release='
+              cat /etc/nv_tegra_release
+            fi
+            if [[ -r /etc/igx-release ]]; then
+              printf 'igx_release='
+              cat /etc/igx-release
+            fi
+            docker info --format \
+              'docker_default_runtime={{.DefaultRuntime}} docker_runtimes={{json .Runtimes}}'
+            printf 'gpu_arg=%q\n' "${gpu_args[@]}"
+          } > "$GITHUB_WORKSPACE/ros_ws/ci-logs/$CI_PLATFORM-gpu-runtime.txt"
+
           if [[ "$CI_REPOSITORY_NAME" == validation-* ]]; then
             docker_args+=(
               --volume /mnt/s3-storage:/mnt/s3-storage:ro
@@ -395,6 +433,57 @@ jobs:
             --rosdistro "$ROS_DISTRO" \
             -y
 
+          command -v nvcc
+          cat > "$setup_dir/cuda-stream-check.cu" <<'ISAAC_ROS_CUDA_CHECK'
+          #include <cuda_runtime.h>
+
+          #include <cstdio>
+
+          int fail(cudaError_t status, const char* operation)
+          {
+            std::fprintf(
+              stderr,
+              "%s failed: %s (%d)\n",
+              operation,
+              cudaGetErrorString(status),
+              static_cast<int>(status));
+            return 1;
+          }
+
+          int main()
+          {
+            int device_count = 0;
+            cudaError_t status = cudaGetDeviceCount(&device_count);
+            if (status != cudaSuccess) {
+              return fail(status, "cudaGetDeviceCount");
+            }
+            if (device_count < 1) {
+              std::fprintf(stderr, "No CUDA devices are available\n");
+              return 1;
+            }
+            status = cudaSetDevice(0);
+            if (status != cudaSuccess) {
+              return fail(status, "cudaSetDevice");
+            }
+            cudaStream_t stream = nullptr;
+            status = cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking);
+            if (status != cudaSuccess) {
+              return fail(status, "cudaStreamCreateWithFlags");
+            }
+            status = cudaStreamDestroy(stream);
+            if (status != cudaSuccess) {
+              return fail(status, "cudaStreamDestroy");
+            }
+            std::printf("CUDA stream preflight passed with %d device(s)\n", device_count);
+            return 0;
+          }
+          ISAAC_ROS_CUDA_CHECK
+          nvcc -std=c++17 \
+            "$setup_dir/cuda-stream-check.cu" \
+            -o "$setup_dir/cuda-stream-check"
+          "$setup_dir/cuda-stream-check" \
+            | tee "$logs/$CI_PLATFORM-cuda-stream-check.log"
+
           dpkg-query -W -f='${binary:Package}\t${Version}\n' \
             | sort \
             > "$logs/${CI_PLATFORM}-debians.tsv"
@@ -479,20 +568,11 @@ jobs:
           source install/setup.bash
           set -u
 
-          colcon_test_args=(
-            --packages-select "${packages[@]}"
-            --event-handlers console_direct+
-          )
-          if [[ "$CI_PLATFORM" == thor ]]; then
-            printf 'launch_test\n' \
-              > "$logs/$CI_PLATFORM-skipped-test-labels.txt"
-            colcon_test_args+=(--ctest-args -LE launch_test)
-          fi
-
           set +e
           test_status=0
           colcon test \
-            "${colcon_test_args[@]}" \
+            --packages-select "${packages[@]}" \
+            --event-handlers console_direct+ \
             2>&1 | tee "$logs/${CI_PLATFORM}-test.log" \
             || test_status=${PIPESTATUS[0]}
 
