@@ -307,8 +307,11 @@ jobs:
 
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends lz4
+          # ROS-generated setup files assume unset variables expand to empty.
+          set +u
           # shellcheck source=/dev/null
           source "/opt/ros/${ROS_DISTRO}/setup.bash"
+          set -u
           rosdep update
           rosdep install \
             --from-paths "$source_root" \
@@ -395,8 +398,10 @@ jobs:
             --cmake-args -DCMAKE_BUILD_TYPE=Release \
             2>&1 | tee "$logs/${CI_PLATFORM}-build.log"
 
+          set +u
           # shellcheck source=/dev/null
           source install/setup.bash
+          set -u
           set +e
           test_status=0
           colcon test \
