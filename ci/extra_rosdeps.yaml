@@ -78,6 +78,9 @@ actionlib_msgs_dbgsym:
     focal: [ros-humble-actionlib-msgs-dbgsym]
     jammy: [ros-humble-actionlib-msgs-dbgsym]
     noble: [ros-jazzy-actionlib-msgs-dbgsym]
+adb:
+  ubuntu:
+    noble: [adb]
 actuator_msgs:
   ubuntu:
     focal: [ros-humble-actuator-msgs]
@@ -1317,6 +1320,9 @@ costmap_queue:
     focal: [ros-humble-costmap-queue]
     jammy: [ros-humble-costmap-queue]
     noble: [ros-jazzy-costmap-queue]
+coturn:
+  ubuntu:
+    noble: [coturn]
 crane_plus_moveit_config:
   ubuntu:
     focal: [ros-humble-crane-plus-moveit-config]
@@ -3330,11 +3336,6 @@ isaac_ros_manipulation_bringup:
     focal: [ros-humble-isaac-ros-manipulation-bringup]
     jammy: [ros-humble-isaac-ros-manipulation-bringup]
     noble: [ros-jazzy-isaac-ros-manipulation-bringup]
-isaac_ros_manipulation_dnn_policy:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-manipulation-dnn-policy]
-    jammy: [ros-humble-isaac-ros-manipulation-dnn-policy]
-    noble: [ros-jazzy-isaac-ros-manipulation-dnn-policy]
 isaac_ros_manipulation_interfaces:
   ubuntu:
     focal: [ros-humble-isaac-ros-manipulation-interfaces]
@@ -3375,11 +3376,9 @@ isaac_ros_manipulation_test_utils:
     focal: [ros-humble-isaac-ros-manipulation-test-utils]
     jammy: [ros-humble-isaac-ros-manipulation-test-utils]
     noble: [ros-jazzy-isaac-ros-manipulation-test-utils]
-isaac_ros_manipulation_gear_assembly:
+isaac_ros_manipulation_contact_rich_insertion:
   ubuntu:
-    focal: [ros-humble-isaac-ros-manipulation-gear-assembly]
-    jammy: [ros-humble-isaac-ros-manipulation-gear-assembly]
-    noble: [ros-jazzy-isaac-ros-manipulation-gear-assembly]
+    noble: [ros-jazzy-isaac-ros-manipulation-contact-rich-insertion]
 isaac_ros_manipulation_ur_isaac_sim_utils:
   ubuntu:
     focal: [ros-humble-isaac-ros-manipulation-ur-isaac-sim-utils]
@@ -3512,6 +3511,9 @@ isaac_ros_cumotion_robot_segmenter:
     focal: [ros-humble-isaac-ros-cumotion-robot-segmenter]
     jammy: [ros-humble-isaac-ros-cumotion-robot-segmenter]
     noble: [ros-jazzy-isaac-ros-cumotion-robot-segmenter]
+isaac_ros_cuvslam:
+  ubuntu:
+    noble: [ros-jazzy-isaac-ros-cuvslam]
 isaac_ros_cvcuda_utils:
   ubuntu:
     noble: [ros-jazzy-isaac-ros-cvcuda-utils]
@@ -3797,11 +3799,6 @@ isaac_ros_nitros:
     focal: [ros-humble-isaac-ros-nitros]
     jammy: [ros-humble-isaac-ros-nitros]
     noble: [ros-jazzy-isaac-ros-nitros]
-isaac_ros_nitros_bridge_benchmark:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-nitros-bridge-benchmark]
-    jammy: [ros-humble-isaac-ros-nitros-bridge-benchmark]
-    noble: [ros-jazzy-isaac-ros-nitros-bridge-benchmark]
 isaac_ros_nitros_bridge_interfaces:
   ubuntu:
     focal: [ros-humble-isaac-ros-nitros-bridge-interfaces]
@@ -4110,11 +4107,6 @@ isaac_ros_visual_global_localization:
     focal: [ros-humble-isaac-ros-visual-global-localization]
     jammy: [ros-humble-isaac-ros-visual-global-localization]
     noble: [ros-jazzy-isaac-ros-visual-global-localization]
-isaac_ros_visual_slam:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-visual-slam]
-    jammy: [ros-humble-isaac-ros-visual-slam]
-    noble: [ros-jazzy-isaac-ros-visual-slam]
 isaac_ros_visual_slam_interfaces:
   ubuntu:
     focal: [ros-humble-isaac-ros-visual-slam-interfaces]
@@ -4566,6 +4558,12 @@ lgsvl_msgs_dbgsym:
     focal: [ros-humble-lgsvl-msgs-dbgsym]
     jammy: [ros-humble-lgsvl-msgs-dbgsym]
     noble: [ros-jazzy-lgsvl-msgs-dbgsym]
+libatomic1:
+  ubuntu:
+    noble: [libatomic1]
+libbsd0:
+  ubuntu:
+    noble: [libbsd0]
 libcamera:
   ubuntu:
     focal: [ros-humble-libcamera]
@@ -4589,6 +4587,9 @@ libcurl_vendor:
     focal: [ros-humble-libcurl-vendor]
     jammy: [ros-humble-libcurl-vendor]
     noble: [ros-jazzy-libcurl-vendor]
+libegl1:
+  ubuntu:
+    noble: [libegl1]
 libfranka:
   ubuntu:
     noble: [libfranka]
@@ -4602,6 +4603,12 @@ libg2o_dbgsym:
     focal: [ros-humble-libg2o-dbgsym]
     jammy: [ros-humble-libg2o-dbgsym]
     noble: [ros-jazzy-libg2o-dbgsym]
+libgl1:
+  ubuntu:
+    noble: [libgl1]
+libglx0:
+  ubuntu:
+    noble: [libglx0]
 libgnat-23:
   ubuntu:
     noble: [libgnat-23]
@@ -4724,6 +4731,21 @@ libstatistics_collector_dbgsym:
 libucx0:
   ubuntu:
     noble: [libucx0]
+libvulkan1:
+  ubuntu:
+    noble: [libvulkan1]
+libwayland-dev:
+  ubuntu:
+    noble: [libwayland-dev]
+libx11-6:
+  ubuntu:
+    noble: [libx11-6]
+libx11-dev:
+  ubuntu:
+    noble: [libx11-dev]
+libxext6:
+  ubuntu:
+    noble: [libxext6]
 libyaml_vendor:
   ubuntu:
     focal: [ros-humble-libyaml-vendor]
@@ -6431,6 +6453,9 @@ perception:
     focal: [ros-humble-perception]
     jammy: [ros-humble-perception]
     noble: [ros-jazzy-perception]
+patchelf:
+  ubuntu:
+    noble: [patchelf]
 perception_pcl:
   ubuntu:
     focal: [ros-humble-perception-pcl]
@@ -7062,6 +7087,9 @@ python3-cuda-python-pip-shim:
 python3-cupy-cuda13x-pip-shim:
   ubuntu:
     noble: [python3-cupy-cuda13x-pip-shim]
+python3-dex-retargeting-pip-shim:
+  ubuntu:
+    noble: [python3-dex-retargeting-pip-shim]
 python3-gdown:
   ubuntu:
     focal: [python3-gdown]
@@ -7076,9 +7104,6 @@ python3-hydra-core-pip-shim:
 python3-iopath-pip-shim:
   ubuntu:
     noble: [python3-iopath-pip-shim]
-python3-isaacteleop-pip-shim:
-  ubuntu:
-    noble: [python3-isaacteleop-pip-shim]
 python3-lerobot-pip-shim:
   ubuntu:
     noble: [python3-lerobot-pip-shim]
@@ -7140,6 +7165,9 @@ python3-rosbags-pip-shim:
 python3-sam2-pip-shim:
   ubuntu:
     noble: [python3-sam2-pip-shim]
+python3-scipy-pip-shim:
+  ubuntu:
+    noble: [python3-scipy-pip-shim]
 python3-setuptools-scm-pip-shim:
   ubuntu:
     noble: [python3-setuptools-scm-pip-shim]
@@ -7158,9 +7186,15 @@ python3-transformers-pip-shim:
 python3-trimesh-pip-shim:
   ubuntu:
     noble: [python3-trimesh-pip-shim]
+python3-uv-pip-shim:
+  ubuntu:
+    noble: [python3-uv-pip-shim]
 python3-warp-lang-pip-shim:
   ubuntu:
     noble: [python3-warp-lang-pip-shim]
+python3-websockets-pip-shim:
+  ubuntu:
+    noble: [python3-websockets-pip-shim]
 python3-yourdfpy-pip-shim:
   ubuntu:
     noble: [python3-yourdfpy-pip-shim]
@@ -9623,6 +9657,12 @@ serial_driver_dbgsym:
     focal: [ros-humble-serial-driver-dbgsym]
     jammy: [ros-humble-serial-driver-dbgsym]
     noble: [ros-jazzy-serial-driver-dbgsym]
+sharpa_ros2_control:
+  ubuntu:
+    noble: [ros-jazzy-sharpa-ros2-control]
+sharpa_wave_sdk_vendor:
+  ubuntu:
+    noble: [ros-jazzy-sharpa-wave-sdk-vendor]
 shape_msgs:
   ubuntu:
     focal: [ros-humble-shape-msgs]
@@ -10113,6 +10153,9 @@ tcb_span:
     focal: [ros-humble-tcb-span]
     jammy: [ros-humble-tcb-span]
     noble: [ros-jazzy-tcb-span]
+teleop_ros2_interfaces:
+  ubuntu:
+    noble: [ros-jazzy-teleop-ros2-interfaces]
 teleop_tools:
   ubuntu:
     focal: [ros-humble-teleop-tools]
@@ -10982,9 +11025,9 @@ unitree_g1_description:
 unitree_g1_gr00t_tests:
   ubuntu:
     noble: [ros-jazzy-unitree-g1-gr00t-tests]
-unitree_g1_ros2_control:
+unitree_hg_ros2_control:
   ubuntu:
-    noble: [ros-jazzy-unitree-g1-ros2-control]
+    noble: [ros-jazzy-unitree-hg-ros2-control]
 ur:
   ubuntu:
     focal: [ros-humble-ur]
