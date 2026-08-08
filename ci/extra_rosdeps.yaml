@@ -7134,6 +7134,9 @@ python3-pytransform3d-pip:
 python3-pytransform3d-pip-shim:
   ubuntu:
     noble: [python3-pytransform3d-pip-shim]
+python3-pyvers-pip-shim:
+  ubuntu:
+    noble: [python3-pyvers-pip-shim]
 python3-rosbags-pip-shim:
   ubuntu:
     noble: [python3-rosbags-pip-shim]
