@@ -1366,9 +1366,6 @@ create_robot:
 cuapriltags_vendor:
   ubuntu:
     noble: [ros-lyrical-cuapriltags-vendor]
-cuda_buffer:
-  ubuntu:
-    noble: [ros-lyrical-cuda-buffer]
 cuda_python:
   ubuntu:
     focal: [ros-humble-cuda-python-placeholder]
@@ -1377,6 +1374,9 @@ cuda_python:
 cuda-toolkit:
   ubuntu:
     noble: [cuda-toolkit]
+cuda-runtime:
+  ubuntu:
+    noble: [cuda-cudart-13-2]
 cudnn_cmake_module:
   ubuntu:
     focal: [ros-humble-cudnn-cmake-module]
