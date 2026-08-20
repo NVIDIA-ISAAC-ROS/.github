@@ -5581,6 +5581,9 @@ mrt_cmake_modules:
 mujoco_ros2_control:
   ubuntu:
     noble: [ros-lyrical-mujoco-ros2-control]
+mujoco_vendor:
+  ubuntu:
+    noble: [ros-lyrical-mujoco-vendor]
 nao_button_sim:
   ubuntu:
     focal: [ros-humble-nao-button-sim]
@@ -8390,6 +8393,9 @@ ros2_control:
     focal: [ros-humble-ros2-control]
     jammy: [ros-humble-ros2-control]
     noble: [ros-lyrical-ros2-control]
+ros2_control_cmake:
+  ubuntu:
+    noble: [ros-lyrical-ros2-control-cmake]
 ros2_control_test_assets:
   ubuntu:
     focal: [ros-humble-ros2-control-test-assets]
@@ -9590,6 +9596,9 @@ sdformat_urdf_dbgsym:
     focal: [ros-humble-sdformat-urdf-dbgsym]
     jammy: [ros-humble-sdformat-urdf-dbgsym]
     noble: [ros-lyrical-sdformat-urdf-dbgsym]
+sdformat_vendor:
+  ubuntu:
+    noble: [ros-lyrical-sdformat-vendor]
 sdl2_vendor:
   ubuntu:
     focal: [ros-humble-sdl2-vendor]
