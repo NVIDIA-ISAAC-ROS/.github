@@ -10384,7 +10384,8 @@ tl_expected:
   ubuntu:
     focal: [ros-humble-tl-expected]
     jammy: [ros-humble-tl-expected]
-    noble: [ros-lyrical-tl-expected]
+    # Lyrical's rcpputils package vendors the tl_expected headers.
+    noble: [ros-lyrical-rcpputils]
 tlsf:
   ubuntu:
     focal: [ros-humble-tlsf]
