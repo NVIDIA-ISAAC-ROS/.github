@@ -87,7 +87,7 @@ jobs:
       CI_ISAAC_ROS_IMAGE: ${{ matrix.isaac_ros_image }}
       CI_SNAPSHOT_ID: ${{ inputs.snapshot_id }}
       CI_REPOSITORY_NAME: ${{ github.event.repository.name }}
-      CI_EXTRA_ROSDEPS_REVISION: "bc0cc520e08676c53175c016926b16c89155b17c"
+      CI_EXTRA_ROSDEPS_REVISION: "65d4cd11325ad3749245573c4012c81afbf5bb2a"
       CI_APT_REPOSITORY_URL: >-
         ${{ startsWith(github.event.repository.name, 'validation-') &&
         inputs.validation_apt_repository_url ||
