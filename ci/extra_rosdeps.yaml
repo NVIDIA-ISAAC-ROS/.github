@@ -3451,9 +3451,6 @@ isaac_ros_agile_booster_t1:
 isaac_ros_agile_unitree_g1:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-agile-unitree-g1]
-isaac_ros_agile_unitree_h2:
-  ubuntu:
-    noble: [ros-lyrical-isaac-ros-agile-unitree-h2]
 isaac_ros_franka_fr3_reach:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-franka-fr3-reach]
@@ -3683,6 +3680,9 @@ isaac_ros_franka_ompl_benchmark:
     focal: [ros-humble-isaac-ros-franka-ompl-benchmark]
     jammy: [ros-humble-isaac-ros-franka-ompl-benchmark]
     noble: [ros-lyrical-isaac-ros-franka-ompl-benchmark]
+isaac_ros_gr00t:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-gr00t]
 isaac_ros_gr00t_unitree_g1_install:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-gr00t-unitree-g1-install]
@@ -5587,6 +5587,12 @@ mrt_cmake_modules:
 mujoco_ros2_control:
   ubuntu:
     noble: [ros-lyrical-mujoco-ros2-control]
+mujoco_ros2_control_msgs:
+  ubuntu:
+    noble: [ros-lyrical-mujoco-ros2-control-msgs]
+mujoco_ros2_control_plugins:
+  ubuntu:
+    noble: [ros-lyrical-mujoco-ros2-control-plugins]
 mujoco_vendor:
   ubuntu:
     noble: [ros-lyrical-mujoco-vendor]
@@ -7125,9 +7131,6 @@ python3-numpy-pip-shim:
 python3-onnx-pip-shim:
   ubuntu:
     noble: [python3-onnx-pip-shim]
-python3-onnxconverter-common-pip-shim:
-  ubuntu:
-    noble: [python3-onnxconverter-common-pip-shim]
 python3-onnxscript-pip-shim:
   ubuntu:
     noble: [python3-onnxscript-pip-shim]
@@ -11053,12 +11056,6 @@ unitree_g1_description:
 unitree_g1_gr00t_tests:
   ubuntu:
     noble: [ros-lyrical-unitree-g1-gr00t-tests]
-unitree_h2_bringup:
-  ubuntu:
-    noble: [ros-lyrical-unitree-h2-bringup]
-unitree_h2_description:
-  ubuntu:
-    noble: [ros-lyrical-unitree-h2-description]
 unitree_hg_ros2_control:
   ubuntu:
     noble: [ros-lyrical-unitree-hg-ros2-control]
