@@ -7096,6 +7096,9 @@ python3-cupy-cuda13x-pip-shim:
 python3-dex-retargeting-pip-shim:
   ubuntu:
     noble: [python3-dex-retargeting-pip-shim]
+python3-flexivrdk-pip-shim:
+  ubuntu:
+    noble: [python3-flexivrdk-pip-shim]
 python3-gdown:
   ubuntu:
     focal: [python3-gdown]
@@ -7131,6 +7134,9 @@ python3-numpy-pip-shim:
 python3-onnx-pip-shim:
   ubuntu:
     noble: [python3-onnx-pip-shim]
+python3-onnxconverter-common-pip-shim:
+  ubuntu:
+    noble: [python3-onnxconverter-common-pip-shim]
 python3-onnxscript-pip-shim:
   ubuntu:
     noble: [python3-onnxscript-pip-shim]
@@ -11149,6 +11155,16 @@ ur_robot_driver_dbgsym:
     focal: [ros-humble-ur-robot-driver-dbgsym]
     jammy: [ros-humble-ur-robot-driver-dbgsym]
     noble: [ros-lyrical-ur-robot-driver-dbgsym]
+# Deliberately jazzy, not a typo: the prebuilt Flexiv RDK archive needs the
+# Fast-DDS 2.x ABI, which lyrical does not package. Exempt from the lyrical
+# rewrite via _DISTRO_REWRITE_EXEMPT_PACKAGES in gen_deb_depends.py.
+#
+# TODO(adutton): drop this once the RDK ships a lyrical-compatible build. As of
+# v1.9.3 upstream still only publishes a ros2-jazzy archive; v1.9.4 dropped the
+# static archives for plain .so files, which may remove the pin entirely.
+flexiv_rdk_fastrtps:
+  ubuntu:
+    noble: [ros-jazzy-fastrtps]
 flexiv_description:
   ubuntu:
     noble: [ros-lyrical-flexiv-description]
@@ -11161,15 +11177,27 @@ flexiv_moveit_config:
 flexiv_bringup:
   ubuntu:
     noble: [ros-lyrical-flexiv-bringup]
-flexiv_controllers:
-  ubuntu:
-    noble: [ros-lyrical-flexiv-controllers]
 flexiv_hardware:
   ubuntu:
     noble: [ros-lyrical-flexiv-hardware]
 flexiv_msgs:
   ubuntu:
     noble: [ros-lyrical-flexiv-msgs]
+flexiv_robot_states_broadcaster:
+  ubuntu:
+    noble: [ros-lyrical-flexiv-robot-states-broadcaster]
+flexiv_test_nodes:
+  ubuntu:
+    noble: [ros-lyrical-flexiv-test-nodes]
+cartesian_motion_controller:
+  ubuntu:
+    noble: [ros-lyrical-cartesian-motion-controller]
+gpio_controller:
+  ubuntu:
+    noble: [ros-lyrical-gpio-controller]
+streaming_position_controller:
+  ubuntu:
+    noble: [ros-lyrical-streaming-position-controller]
 urdf:
   ubuntu:
     focal: [ros-humble-urdf]
