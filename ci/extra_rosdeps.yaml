@@ -1377,6 +1377,12 @@ cuda_buffer:
 cuda-toolkit:
   ubuntu:
     noble: [cuda-toolkit]
+cuda-toolkit-13-0:
+  ubuntu:
+    noble: [cuda-toolkit-13-0]
+cuda-toolkit-13-2:
+  ubuntu:
+    noble: [cuda-toolkit-13-2]
 cuda-runtime:
   ubuntu:
     noble: [cuda-cudart-13-2]
