@@ -87,7 +87,7 @@ jobs:
       CI_ISAAC_ROS_IMAGE: ${{ matrix.isaac_ros_image }}
       CI_SNAPSHOT_ID: ${{ inputs.snapshot_id }}
       CI_REPOSITORY_NAME: ${{ github.event.repository.name }}
-      CI_EXTRA_ROSDEPS_REVISION: "ee077420612fee2e11db0b1f574003967e5a7a75"
+      CI_EXTRA_ROSDEPS_REVISION: "55bc9f2b69f07484357876f7c4af3b5b75cb0195"
       CI_APT_REPOSITORY_URL: >-
         ${{ startsWith(github.event.repository.name, 'validation-') &&
         inputs.validation_apt_repository_url ||
@@ -361,7 +361,8 @@ jobs:
               \( -name '*isaac-ros-cuda*.pref' -o \
                  -name '*isaac-ros-opencv*.pref' -o \
                  -name '*isaac-ros-tensorrt*.pref' -o \
-                 -name '*isaac-ros-jetson*.pref' \) \
+                 -name '*isaac-ros-jetson*.pref' -o \
+                 -name '*isaac-ros-dgx-spark*.pref' \) \
               -delete
             sudo install -m 0644 \
               "${validation_preferences[@]}" \
