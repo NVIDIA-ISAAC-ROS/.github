@@ -274,6 +274,7 @@ jobs:
           logs="$workspace/ros_ws/ci-logs"
           setup_dir="/tmp/isaac-ros-validation-$CI_PLATFORM"
           apt_source="/etc/apt/sources.list.d/isaac-ros-ci.list"
+          apt_cdn_preference="/etc/apt/preferences.d/isaac-ros-ci-cdn-fallback.pref"
           rosdep_source="/etc/ros/rosdep/sources.list.d/00-nvidia-isaac-ci.list"
           repository_key="$setup_dir/repos.key"
           keyring="$setup_dir/nvidia-isaac-ros.gpg"
@@ -390,6 +391,18 @@ jobs:
           printf "deb [signed-by=%s] %s %s main\n" \
             "$keyring" "$apt_repository_url" "$CI_DEBIAN_DIST" \
             > "$setup_dir/apt-source.list"
+          if [[ "$CI_REPOSITORY_NAME" == validation-* ]]; then
+            printf "deb [arch=%s signed-by=%s] %s noble main\n" \
+              "$CI_DEBIAN_ARCH" \
+              "$keyring" \
+              "https://isaac.download.nvidia.com/isaac-ros/ubuntu/main" \
+              >> "$setup_dir/apt-source.list"
+            printf '%s\n' \
+              'Package: *' \
+              'Pin: origin "isaac.download.nvidia.com"' \
+              'Pin-Priority: 400' \
+              > "$setup_dir/cdn-fallback.pref"
+          fi
           printf "yaml file://%s\n" "$extra_rosdeps" \
             > "$setup_dir/rosdep-source.list"
 
@@ -397,6 +410,11 @@ jobs:
             sudo rosdep init
           fi
           sudo install -m 0644 "$setup_dir/apt-source.list" "$apt_source"
+          if [[ "$CI_REPOSITORY_NAME" == validation-* ]]; then
+            sudo install -m 0644 \
+              "$setup_dir/cdn-fallback.pref" \
+              "$apt_cdn_preference"
+          fi
           sudo install -m 0644 "$setup_dir/rosdep-source.list" "$rosdep_source"
 
           sudo apt-get update
