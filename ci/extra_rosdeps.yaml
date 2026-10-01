@@ -7158,9 +7158,9 @@ python3-onnxconverter-common-pip-shim:
 python3-onnxscript-pip-shim:
   ubuntu:
     noble: [python3-onnxscript-pip-shim]
-python3-opencv-python:
+python3-opencv:
   ubuntu:
-    noble: [python3-opencv-python]
+    noble: [python3-opencv]
 python3-paho-mqtt-pip-shim:
   ubuntu:
     noble: [python3-paho-mqtt-pip-shim]
