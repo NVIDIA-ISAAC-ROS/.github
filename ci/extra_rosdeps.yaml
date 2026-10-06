@@ -3695,6 +3695,15 @@ isaac_ros_franka_ompl_benchmark:
 isaac_ros_gr00t_unitree_g1_install:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-gr00t-unitree-g1-install]
+isaac_ros_graspgenx:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-graspgenx]
+isaac_ros_graspgenx_interfaces:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-graspgenx-interfaces]
+isaac_ros_graspgenx_models_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-graspgenx-models-install]
 isaac_ros_grounding_dino:
   ubuntu:
     focal: [ros-humble-isaac-ros-grounding-dino]
