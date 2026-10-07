@@ -3872,11 +3872,6 @@ isaac_ros_occupancy_grid_localizer_benchmark:
     focal: [ros-humble-isaac-ros-occupancy-grid-localizer-benchmark]
     jammy: [ros-humble-isaac-ros-occupancy-grid-localizer-benchmark]
     noble: [ros-lyrical-isaac-ros-occupancy-grid-localizer-benchmark]
-isaac_ros_occupancy_map_builder:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-occupancy-map-builder]
-    jammy: [ros-humble-isaac-ros-occupancy-map-builder]
-    noble: [ros-lyrical-isaac-ros-occupancy-map-builder]
 isaac_ros_peoplenet_models_install:
   ubuntu:
     focal: [ros-humble-isaac-ros-peoplenet-models-install]
