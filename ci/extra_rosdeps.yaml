@@ -1374,6 +1374,12 @@ cuda_python:
 cuda_buffer:
   ubuntu:
     noble: [ros-lyrical-cuda-buffer]
+cuda_buffer_backend:
+  ubuntu:
+    noble: [ros-lyrical-cuda-buffer-backend]
+cuda_buffer_backend_msgs:
+  ubuntu:
+    noble: [ros-lyrical-cuda-buffer-backend-msgs]
 cuda-toolkit:
   ubuntu:
     noble: [cuda-toolkit]
@@ -3872,11 +3878,6 @@ isaac_ros_occupancy_grid_localizer_benchmark:
     focal: [ros-humble-isaac-ros-occupancy-grid-localizer-benchmark]
     jammy: [ros-humble-isaac-ros-occupancy-grid-localizer-benchmark]
     noble: [ros-lyrical-isaac-ros-occupancy-grid-localizer-benchmark]
-isaac_ros_occupancy_map_builder:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-occupancy-map-builder]
-    jammy: [ros-humble-isaac-ros-occupancy-map-builder]
-    noble: [ros-lyrical-isaac-ros-occupancy-map-builder]
 isaac_ros_peoplenet_models_install:
   ubuntu:
     focal: [ros-humble-isaac-ros-peoplenet-models-install]
@@ -4006,11 +4007,6 @@ isaac_ros_tensor_inspector:
     focal: [ros-humble-isaac-ros-tensor-inspector]
     jammy: [ros-humble-isaac-ros-tensor-inspector]
     noble: [ros-lyrical-isaac-ros-tensor-inspector]
-isaac_ros_tensor_list_interfaces:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-tensor-list-interfaces]
-    jammy: [ros-humble-isaac-ros-tensor-list-interfaces]
-    noble: [ros-lyrical-isaac-ros-tensor-list-interfaces]
 isaac_ros_tensor_msgs:
   ubuntu:
     focal: [ros-humble-isaac-ros-tensor-msgs]
