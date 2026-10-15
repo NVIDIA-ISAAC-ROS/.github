@@ -3581,9 +3581,15 @@ isaac_ros_deploy:
 isaac_ros_deploy_bringup:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-deploy-bringup]
+isaac_ros_deploy_converter_test_plugins:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-deploy-converter-test-plugins]
 isaac_ros_deploy_converters:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-deploy-converters]
+isaac_ros_deploy_converters_core:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-deploy-converters-core]
 isaac_ros_deploy_interfaces:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-deploy-interfaces]
