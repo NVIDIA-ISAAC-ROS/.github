@@ -121,6 +121,12 @@ affordance_primitives_dbgsym:
     focal: [ros-humble-affordance-primitives-dbgsym]
     jammy: [ros-humble-affordance-primitives-dbgsym]
     noble: [ros-lyrical-affordance-primitives-dbgsym]
+agile_one_sn_bringup:
+  ubuntu:
+    noble: [ros-lyrical-agile-one-sn-bringup]
+agile_one_sn_description:
+  ubuntu:
+    noble: [ros-lyrical-agile-one-sn-description]
 ament_acceleration:
   ubuntu:
     focal: [ros-humble-ament-acceleration]
@@ -1374,6 +1380,12 @@ cuda_python:
 cuda_buffer:
   ubuntu:
     noble: [ros-lyrical-cuda-buffer]
+cuda_buffer_backend:
+  ubuntu:
+    noble: [ros-lyrical-cuda-buffer-backend]
+cuda_buffer_backend_msgs:
+  ubuntu:
+    noble: [ros-lyrical-cuda-buffer-backend-msgs]
 cuda-toolkit:
   ubuntu:
     noble: [cuda-toolkit]
@@ -3486,6 +3498,75 @@ isaac_ros_benchmark:
     focal: [ros-humble-isaac-ros-benchmark]
     jammy: [ros-humble-isaac-ros-benchmark]
     noble: [ros-lyrical-isaac-ros-benchmark]
+isaac_ros_benchmark_asset_utils:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-asset-utils]
+isaac_ros_benchmark_assets_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-assets-install]
+isaac_ros_benchmark_centerpose_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-centerpose-install]
+isaac_ros_benchmark_ess_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-ess-install]
+isaac_ros_benchmark_foundationpose_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-foundationpose-install]
+isaac_ros_benchmark_foundationpose_mesh_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-foundationpose-mesh-install]
+isaac_ros_benchmark_foundationstereo_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-foundationstereo-install]
+isaac_ros_benchmark_grounding_dino_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-grounding-dino-install]
+isaac_ros_benchmark_ketchup_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-ketchup-install]
+isaac_ros_benchmark_peoplenet_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-peoplenet-install]
+isaac_ros_benchmark_peoplesemsegformer_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-peoplesemsegformer-install]
+isaac_ros_benchmark_peoplesemsegnet_shuffleseg_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-peoplesemsegnet-shuffleseg-install]
+isaac_ros_benchmark_r2b_compressed_image_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-compressed-image-install]
+isaac_ros_benchmark_r2b_datacenter_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-datacenter-install]
+isaac_ros_benchmark_r2b_hallway_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-hallway-install]
+isaac_ros_benchmark_r2b_hideaway_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-hideaway-install]
+isaac_ros_benchmark_r2b_hope_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-hope-install]
+isaac_ros_benchmark_r2b_mezzanine_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-mezzanine-install]
+isaac_ros_benchmark_r2b_robotarm_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-robotarm-install]
+isaac_ros_benchmark_r2b_storage_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-r2b-storage-install]
+isaac_ros_benchmark_sdetr_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-sdetr-install]
+isaac_ros_benchmark_segment_anything2_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-segment-anything2-install]
+isaac_ros_benchmark_segment_anything_install:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-benchmark-segment-anything-install]
 isaac_ros_centerpose:
   ubuntu:
     focal: [ros-humble-isaac-ros-centerpose]
@@ -3575,9 +3656,15 @@ isaac_ros_deploy:
 isaac_ros_deploy_bringup:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-deploy-bringup]
+isaac_ros_deploy_converter_test_plugins:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-deploy-converter-test-plugins]
 isaac_ros_deploy_converters:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-deploy-converters]
+isaac_ros_deploy_converters_core:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-deploy-converters-core]
 isaac_ros_deploy_interfaces:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-deploy-interfaces]
@@ -3872,11 +3959,6 @@ isaac_ros_occupancy_grid_localizer_benchmark:
     focal: [ros-humble-isaac-ros-occupancy-grid-localizer-benchmark]
     jammy: [ros-humble-isaac-ros-occupancy-grid-localizer-benchmark]
     noble: [ros-lyrical-isaac-ros-occupancy-grid-localizer-benchmark]
-isaac_ros_occupancy_map_builder:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-occupancy-map-builder]
-    jammy: [ros-humble-isaac-ros-occupancy-map-builder]
-    noble: [ros-lyrical-isaac-ros-occupancy-map-builder]
 isaac_ros_peoplenet_models_install:
   ubuntu:
     focal: [ros-humble-isaac-ros-peoplenet-models-install]
@@ -4006,11 +4088,6 @@ isaac_ros_tensor_inspector:
     focal: [ros-humble-isaac-ros-tensor-inspector]
     jammy: [ros-humble-isaac-ros-tensor-inspector]
     noble: [ros-lyrical-isaac-ros-tensor-inspector]
-isaac_ros_tensor_list_interfaces:
-  ubuntu:
-    focal: [ros-humble-isaac-ros-tensor-list-interfaces]
-    jammy: [ros-humble-isaac-ros-tensor-list-interfaces]
-    noble: [ros-lyrical-isaac-ros-tensor-list-interfaces]
 isaac_ros_tensor_msgs:
   ubuntu:
     focal: [ros-humble-isaac-ros-tensor-msgs]
@@ -11578,6 +11655,12 @@ wireless_watcher:
     focal: [ros-humble-wireless-watcher]
     jammy: [ros-humble-wireless-watcher]
     noble: [ros-lyrical-wireless-watcher]
+wuji_hand2_bringup:
+  ubuntu:
+    noble: [ros-lyrical-wuji-hand2-bringup]
+wuji_hand2_description:
+  ubuntu:
+    noble: [ros-lyrical-wuji-hand2-description]
 x264:
   ubuntu:
     focal: [libx264-dev]
