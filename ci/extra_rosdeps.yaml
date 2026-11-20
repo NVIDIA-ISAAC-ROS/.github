@@ -3588,6 +3588,9 @@ isaac_ros_common:
     focal: [ros-humble-isaac-ros-common]
     jammy: [ros-humble-isaac-ros-common]
     noble: [ros-lyrical-isaac-ros-common]
+isaac_ros_compass_controller:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-compass-controller]
 isaac_ros_cumotion:
   ubuntu:
     focal: [ros-humble-isaac-ros-cumotion]
