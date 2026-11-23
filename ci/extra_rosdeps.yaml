@@ -4146,6 +4146,9 @@ isaac_ros_unitree_g1_teleop_bringup:
 isaac_ros_unitree_h2_teleop_bringup:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-unitree-h2-teleop-bringup]
+isaac_ros_agile_one_sn_teleop_bringup:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-agile-one-sn-teleop-bringup]
 isaac_ros_unet:
   ubuntu:
     focal: [ros-humble-isaac-ros-unet]
