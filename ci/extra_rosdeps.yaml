@@ -3374,9 +3374,6 @@ isaac_deploy_ros2_test_utils:
 isaac_deploy_safety_controller:
   ubuntu:
     noble: [ros-lyrical-isaac-deploy-safety-controller]
-isaac_ros_agile_agile_one_sn:
-  ubuntu:
-    noble: [ros-lyrical-isaac-ros-agile-agile-one-sn]
 isaac_ros_manipulation_bringup:
   ubuntu:
     focal: [ros-humble-isaac-ros-manipulation-bringup]
@@ -3591,6 +3588,9 @@ isaac_ros_common:
     focal: [ros-humble-isaac-ros-common]
     jammy: [ros-humble-isaac-ros-common]
     noble: [ros-lyrical-isaac-ros-common]
+isaac_ros_compass_controller:
+  ubuntu:
+    noble: [ros-lyrical-isaac-ros-compass-controller]
 isaac_ros_cumotion:
   ubuntu:
     focal: [ros-humble-isaac-ros-cumotion]
@@ -4146,9 +4146,6 @@ isaac_ros_unitree_g1_teleop_bringup:
 isaac_ros_unitree_h2_teleop_bringup:
   ubuntu:
     noble: [ros-lyrical-isaac-ros-unitree-h2-teleop-bringup]
-isaac_ros_agile_one_sn_teleop_bringup:
-  ubuntu:
-    noble: [ros-lyrical-isaac-ros-agile-one-sn-teleop-bringup]
 isaac_ros_unet:
   ubuntu:
     focal: [ros-humble-isaac-ros-unet]
