@@ -53,13 +53,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Public isaac_ros_d809a261531360c41d997bff5861281a images (2026-11-18).
         include:
           - platform: x86
             expected_arch: x86_64
             debian_arch: amd64
             isaac_ros_platform: amd64
             isaac_ros_image: >-
-              nvcr.io/nvidia/isaac/ros@sha256:3efda0f0e69d0e2465f47759b65075b321f9630e4e9145983931dd5988650c06
+              nvcr.io/nvidia/isaac/ros@sha256:088ffb3762b6d5e6494ae6d248ab6aadf772dcec99e0c5626fc734de2a092e91
             runner_labels: ${{ inputs.x86_runner_labels }}
             debian_dist: ${{ inputs.x86_debian_dist }}
           - platform: thor
@@ -67,7 +68,7 @@ jobs:
             debian_arch: arm64
             isaac_ros_platform: arm64-jetpack
             isaac_ros_image: >-
-              nvcr.io/nvidia/isaac/ros@sha256:806fd525ae6404aa3a10d9c27b13b6e6f312361b839b9769fd3cc768a90d7940
+              nvcr.io/nvidia/isaac/ros@sha256:16500cbfd1972bfb3ba95a7263f495a2164458638fa3a8120e07d6123102bfe9
             runner_labels: ${{ inputs.thor_runner_labels }}
             debian_dist: ${{ inputs.thor_debian_dist }}
 
@@ -87,14 +88,14 @@ jobs:
       CI_ISAAC_ROS_IMAGE: ${{ matrix.isaac_ros_image }}
       CI_SNAPSHOT_ID: ${{ inputs.snapshot_id }}
       CI_REPOSITORY_NAME: ${{ github.event.repository.name }}
-      CI_EXTRA_ROSDEPS_REVISION: "3062f6ee6e74bcacae19c47e06107badafb9185f"
+      CI_EXTRA_ROSDEPS_REVISION: "1a80e152afdfde404cfed7390e2376943cad7497"
       CI_APT_REPOSITORY_URL: >-
         ${{ startsWith(github.event.repository.name, 'validation-') &&
         inputs.validation_apt_repository_url ||
         inputs.public_apt_repository_url }}
       CI_REPOSITORY_KEY_SHA256: >-
         d45fbd909e89914960a66dba17d4c659adf908ab4d6fe2cf55381e9ffe5ce59d
-      ROS_DISTRO: jazzy
+      ROS_DISTRO: lyrical
 
     steps:
       - name: Reset generated workspace state
@@ -173,7 +174,17 @@ jobs:
 
           install -d "$GITHUB_WORKSPACE/ros_ws/ci-logs"
           image_log="$GITHUB_WORKSPACE/ros_ws/ci-logs/$CI_PLATFORM-container-image-pull.log"
-          docker pull "$CI_ISAAC_ROS_IMAGE" 2>&1 | tee "$image_log"
+          (
+            # These public NGC images must not use the runner's stored credentials.
+            anonymous_docker_config="$(mktemp -d)"
+            trap 'rm -rf -- "$anonymous_docker_config"' EXIT
+            # An explicit empty auth entry also disables default helper discovery.
+            printf '%s\n' '{"auths":{"nvcr.io":{}}}' \
+              > "$anonymous_docker_config/config.json"
+            unset DOCKER_AUTH_CONFIG
+            docker --config "$anonymous_docker_config" pull \
+              "$CI_ISAAC_ROS_IMAGE"
+          ) 2>&1 | tee "$image_log"
           test "$(
             docker image inspect "$CI_ISAAC_ROS_IMAGE" \
               --format '{{.Architecture}}'
